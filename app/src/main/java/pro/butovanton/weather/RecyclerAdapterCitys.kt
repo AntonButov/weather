@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.AdapterView.OnItemSelectedListener as OnItemSelectedListener1
-
 
 class RecyclerAdapter(val activitySitys: ActivitySitys) :
     RecyclerView.Adapter<RecyclerAdapter.ViewHolderCitys>() {
@@ -36,9 +33,7 @@ class RecyclerAdapter(val activitySitys: ActivitySitys) :
                     count: Int,
                     after: Int
                 ) {
-
                 }
-
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
@@ -62,6 +57,11 @@ class RecyclerAdapter(val activitySitys: ActivitySitys) :
                 save()
             }
         }
+        holder.buttonDel.setOnClickListener {
+            citys.removeAt(positionAdapter)
+            notifyDataSetChanged()
+            save()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -81,11 +81,12 @@ class RecyclerAdapter(val activitySitys: ActivitySitys) :
         RecyclerView.ViewHolder(view) {
         val editTextViewItemName: EditText
         val type: Spinner
+        val buttonDel : Button
 
         init {
             editTextViewItemName = view.findViewById(R.id.editTextItemName)
             type = view.findViewById(R.id.spinerItemType)
-
+            buttonDel = view.findViewById(R.id.buttonDel)
             ArrayAdapter.createFromResource(
                 activitySitys,
                 R.array.size_city,
