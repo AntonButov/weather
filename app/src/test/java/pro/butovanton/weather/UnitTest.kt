@@ -16,13 +16,13 @@ class UnitTest {
         val factory = Factory()
         val name = "Test"
 
-        city = factory.Creat(SityType.Small, name)
+        city = factory.Creat(0, name)
         assertTrue(city is Small )
 
-        city = factory.Creat(SityType.Medium, name)
+        city = factory.Creat(1, name)
         assertTrue(city is Medium)
 
-        city = factory.Creat(SityType.Big, name)
+        city = factory.Creat(2, name)
         assertTrue(city is Big)
     }
 

@@ -1,3 +1,3 @@
 package pro.butovanton.weather
 
-class Small (name: String): City(name)
+class Small (name: String, type : Int): City(name, type)

@@ -18,7 +18,7 @@ class InstrumentedTest {
     fun dbTest() {
         val db = Room.databaseBuilder(appContext, AppDatabase::class.java,"sitys").allowMainThreadQueries().build()
         val dao = db.getDao()
-        dao.insertSity(City("test"))
+        dao.insertSity(City("test",0))
         var cities: List<City> = dao.getSitys()
         var sity = cities.get(0)
         dao.deleteAll()

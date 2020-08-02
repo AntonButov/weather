@@ -6,13 +6,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "citys")
-open class City(name : String) {
+open class City(name : String, type : Int) {
 
     @PrimaryKey
     @NonNull
-    val name : String
+    var name : String
+    val type : Int
 
     init {
         this.name = name
+        this.type = type
     }
+
 }

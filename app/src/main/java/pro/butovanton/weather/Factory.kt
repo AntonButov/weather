@@ -1,16 +1,16 @@
 package pro.butovanton.weather
 
-enum class SityType { Small, Medium, Big }
-
 class Factory {
 
-    fun Creat(type: SityType, name: String): City {
 
-     when (type) {
-         SityType.Small -> return Small(name)
-         SityType.Big -> return Big(name)
-         SityType.Medium -> return Medium(name)
-     }
+    fun Creat(type: Int, name: String): City {
+
+        return when (type) {
+            0 -> Small(name, type)
+            1 -> Medium(name, type)
+            2 -> Big(name, type)
+            else -> City(name, type)
+        }
     }
 }
 
