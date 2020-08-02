@@ -4,16 +4,16 @@ import android.app.Application
 import androidx.room.Room
 
 class App : Application() {
-    companion object {
-        lateinit var db: AppDatabase
-        fun getDatabase(): AppDatabase? {
-            return db
-        }
 
-    }
+  lateinit var db: AppDatabase
+
     override fun onCreate() {
         super.onCreate()
-        db= Room.databaseBuilder(applicationContext, AppDatabase::class.java,"sitys").allowMainThreadQueries().build()
+        db= Room.databaseBuilder(applicationContext, AppDatabase::class.java,"sitys")
+                .allowMainThreadQueries()
+                .build()
+        val dao = db.getDao()
+        Repo.instance.setDao(dao)
     }
 
 }

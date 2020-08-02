@@ -8,14 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import org.junit.Before
-import pro.butovanton.weather.App.Companion.db
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class InstrumentedTest {
 
@@ -25,9 +18,9 @@ class InstrumentedTest {
     fun dbTest() {
         val db = Room.databaseBuilder(appContext, AppDatabase::class.java,"sitys").allowMainThreadQueries().build()
         val dao = db.getDao()
-        dao.insertSity(Sity("test"))
-        var sitys: List<Sity> = dao.getSitys()
-        var sity = sitys.get(0)
+        dao.insertSity(City("test"))
+        var cities: List<City> = dao.getSitys()
+        var sity = cities.get(0)
         dao.deleteAll()
         assertTrue(sity.name.equals("test"))
     }

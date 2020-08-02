@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">weather</string>
+
+    <string-array name="size_city">
+        <item>Маленький</item>
+        <item>Средний</item>
+        <item>Большой</item>
+    </string-array>
 </resources>

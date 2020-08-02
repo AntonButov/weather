@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "citys")
-open class Sity(name : String) {
+open class City(name : String) {
 
     @PrimaryKey
     @NonNull

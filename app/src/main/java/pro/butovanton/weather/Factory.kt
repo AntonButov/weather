@@ -4,7 +4,7 @@ enum class SityType { Small, Medium, Big }
 
 class Factory {
 
-    fun Creat(type: SityType, name: String): Sity {
+    fun Creat(type: SityType, name: String): City {
 
      when (type) {
          SityType.Small -> return Small(name)

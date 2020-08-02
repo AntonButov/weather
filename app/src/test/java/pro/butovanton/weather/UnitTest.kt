@@ -1,6 +1,5 @@
 package pro.butovanton.weather
 
-import androidx.room.Room
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,23 +12,23 @@ import org.junit.Assert.*
 class UnitTest {
     @Test
     fun factoryTest() {
-        var sity: Sity
+        var city: City
         val factory = Factory()
         val name = "Test"
 
-        sity = factory.Creat(SityType.Small, name)
-        assertTrue(sity is Small )
+        city = factory.Creat(SityType.Small, name)
+        assertTrue(city is Small )
 
-        sity = factory.Creat(SityType.Medium, name)
-        assertTrue(sity is Medium)
+        city = factory.Creat(SityType.Medium, name)
+        assertTrue(city is Medium)
 
-        sity = factory.Creat(SityType.Big, name)
-        assertTrue(sity is Big)
+        city = factory.Creat(SityType.Big, name)
+        assertTrue(city is Big)
     }
 
     @Test
     fun sezonsTest()  {
-      val repo = Repo()
+      val repo = Repo.instance
       assertTrue(repo.sesons.size == 4)
       assertTrue(repo.autumn.size == 3)
       assertTrue(repo.summer.size == 3)
@@ -37,6 +36,4 @@ class UnitTest {
       assertTrue(repo.winter.size == 3)
       assertTrue(repo.mounfs.size == 12)
     }
-
-
 }

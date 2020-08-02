@@ -6,13 +6,13 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface dao {
+interface daoCity {
 
     @Query("SELECT * FROM citys")
-    fun getSitys(): List<Sity>
+    fun getSitys(): MutableList<City>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSity(sity: Sity)
+    fun insertSity(city: City)
 
     @Query("DELETE FROM citys")
     fun deleteAll()
