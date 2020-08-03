@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ActivitySitys : AppCompatActivity(), notifyCitys  {
 
     lateinit var recyclerView: RecyclerView
-    lateinit var adapter: RecyclerAdapter
+    lateinit var adapter: RecyclerAdapterCitys
     lateinit var lm : LinearLayoutManager
     lateinit var buttonAdd: Button
     lateinit var citys : MutableList<City>
@@ -22,7 +22,7 @@ class ActivitySitys : AppCompatActivity(), notifyCitys  {
         setContentView(R.layout.activity_sytes)
 
         recyclerView = findViewById(R.id.recicler)
-        adapter = RecyclerAdapter(this)
+        adapter = RecyclerAdapterCitys(this)
         lm = LinearLayoutManager(this)
         recyclerView.layoutManager = lm
         recyclerView.adapter = adapter

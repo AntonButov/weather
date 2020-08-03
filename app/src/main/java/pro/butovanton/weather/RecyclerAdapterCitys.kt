@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(val activitySitys: ActivitySitys) :
-    RecyclerView.Adapter<RecyclerAdapter.ViewHolderCitys>() {
+class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
+    RecyclerView.Adapter<RecyclerAdapterCitys.ViewHolderCitys>() {
     var citys: MutableList<City> = mutableListOf()
     val mInflater: LayoutInflater = LayoutInflater.from(activitySitys);
 
