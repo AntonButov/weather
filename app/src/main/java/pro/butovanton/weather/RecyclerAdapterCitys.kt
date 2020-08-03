@@ -62,6 +62,9 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
             notifyDataSetChanged()
             save()
         }
+        holder.buttonTemper.setOnClickListener {
+            activitySitys.temper(positionAdapter)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -82,11 +85,13 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
         val editTextViewItemName: EditText
         val type: Spinner
         val buttonDel : Button
+        val buttonTemper : Button
 
         init {
-            editTextViewItemName = view.findViewById(R.id.editTextItemName)
+            editTextViewItemName = view.findViewById(R.id.editTextName)
             type = view.findViewById(R.id.spinerItemType)
             buttonDel = view.findViewById(R.id.buttonDel)
+            buttonTemper = view.findViewById(R.id.buttonTemper)
             ArrayAdapter.createFromResource(
                 activitySitys,
                 R.array.size_city,

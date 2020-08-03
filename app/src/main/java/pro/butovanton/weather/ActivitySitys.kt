@@ -1,5 +1,6 @@
 package pro.butovanton.weather
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +32,7 @@ class ActivitySitys : AppCompatActivity(), notifyCitys  {
         citys = model.getCitys()
         adapter.adnotify(citys)
 
-        buttonAdd = findViewById(R.id.buttonTemper)
+        buttonAdd = findViewById(R.id.buttonAddCity)
         buttonAdd.setOnClickListener() {
             citys.add(factory.Creat(0, "введите имя"))
             adapter.adnotify(citys)
@@ -48,6 +49,12 @@ class ActivitySitys : AppCompatActivity(), notifyCitys  {
          save()
      }
 
- }
+    override fun temper(city: Int) {
+        intent = Intent(this, ActivityTemper::class.java)
+        intent.putExtra("city", city)
+        startActivity(intent)
+    }
+
+}
 
 
