@@ -25,7 +25,7 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
         positionAdapter: Int
     ) {
         holder.run {
-            textViewMonth.setText(months.getText(positionAdapter))
+            textViewMonth.setText(months.getString(positionAdapter))
             val t = citys[city].temperature[positionAdapter]
             if (t != null)
                    editTextTemper.setText("" + t)
