@@ -14,8 +14,8 @@ class Converter {
 
         @TypeConverter
         fun toInt(temperat: String): MutableList<Int> {
-            val type = object : TypeToken<List<Int>>() {}.type
-            return Gson().fromJson(String(), type)
+            val type = object : TypeToken<MutableList<Int>>() {}.type
+            return Gson().fromJson(temperat, type)
         }
 }
 
