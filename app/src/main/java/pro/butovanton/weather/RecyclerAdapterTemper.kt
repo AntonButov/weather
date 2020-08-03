@@ -59,8 +59,6 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
         context.temperatureSave(citys)
         }
 
-
-
     class ViewHolderTemper(view: View, context: Context) :
         RecyclerView.ViewHolder(view) {
         val editTextTemper: EditText

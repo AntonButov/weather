@@ -53,7 +53,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
                 position: Int,
                 id: Long
             ) {
-                citys[positionAdapter] = Factory().Creat(position, citys[positionAdapter].name)
+                citys[positionAdapter].type = position
                 save()
             }
         }

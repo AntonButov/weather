@@ -5,7 +5,6 @@ class Repo {
     private lateinit var daoC : daoCity
     fun setDao(dao: daoCity) {
     this.daoC = dao
-
     }
 
     fun getCitys() : MutableList<City> {
