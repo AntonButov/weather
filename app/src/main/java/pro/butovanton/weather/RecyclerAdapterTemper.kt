@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapterTemper(val context : Context, val city : Int, val citys: List<City>) :
+class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val citys: List<City>) :
     RecyclerView.Adapter<RecyclerAdapterTemper.ViewHolderTemper>() {
     val mInflater: LayoutInflater = LayoutInflater.from(context);
     val months: TypedArray = context.resources.obtainTypedArray(R.array.months)
@@ -26,26 +26,28 @@ class RecyclerAdapterTemper(val context : Context, val city : Int, val citys: Li
     ) {
         holder.run {
             textViewMonth.setText(months.getText(positionAdapter))
-            editTextTemper.setText("" + citys[city].temperature[positionAdapter])
-         //   editTextTemper.addTextChangedListener(object : TextWatcher {
-       //         override fun afterTextChanged(s: Editable?) {
-      //              citys[city].temperature[positionAdapter] = s.toString().toInt()
-     //               save()
-     //           }
+            val t = citys[city].temperature[positionAdapter]
+            if (t != null)
+                   editTextTemper.setText("" + t)
+            editTextTemper.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    citys[city].temperature[positionAdapter] = s.toString().toInt()
+                    save()
+                }
 
-     //           override fun beforeTextChanged(
-   //                 s: CharSequence?,
-   //                 start: Int,
-    //                count: Int,
-   //                 after: Int
-   //             ) {
-   //             }
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
 
-  //              override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-   //             }
+                }
 
-   //         })
+            })
         }
     }
 
@@ -54,7 +56,7 @@ class RecyclerAdapterTemper(val context : Context, val city : Int, val citys: Li
     }
 
         fun save() {
-      //      context.save(citys)
+        context.temperatureSave(citys)
         }
 
 

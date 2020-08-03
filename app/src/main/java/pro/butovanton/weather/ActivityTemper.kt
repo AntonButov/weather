@@ -2,12 +2,12 @@ package pro.butovanton.weather
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class ActivityTemper : AppCompatActivity() {
+class ActivityTemper : AppCompatActivity(), saveTemperature {
 
     lateinit var recyclerViewTemper: RecyclerView
     lateinit var adapterTemper: RecyclerAdapterTemper
@@ -29,5 +29,9 @@ class ActivityTemper : AppCompatActivity() {
         lm = LinearLayoutManager(this)
         recyclerViewTemper.layoutManager = lm
         recyclerViewTemper.adapter = adapterTemper
+    }
+
+    override fun temperatureSave(citys: List<City>) {
+        model.setCitys(citys)
     }
 }

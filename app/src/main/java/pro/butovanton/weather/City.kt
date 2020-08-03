@@ -24,7 +24,7 @@ open class City(name : String, type : Int) {
 
     @SerializedName("temperature")
     @TypeConverters(Converter::class)
-    var temperature = mutableListOf<Int>(-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 100)
+    var temperature = mutableListOf<Int?>(null, null, null, null, null, null, null, null, null, null, null, null)
 /*
     @TypeConverters(MounthConverter::class)
     val mounfs : List<Mounth> = listOf(Mounth("January"), Mounth("February"), Mounth("March"),
