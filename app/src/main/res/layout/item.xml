@@ -19,6 +19,7 @@
         android:maxLines="1"
         android:layout_marginTop="32dp"
         android:textSize="18sp"
+android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

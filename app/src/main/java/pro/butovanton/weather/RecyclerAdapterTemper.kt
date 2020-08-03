@@ -29,6 +29,11 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
             val t = citys[city].temperature[positionAdapter]
             if (t != null)
                    editTextTemper.setText("" + t)
+            editTextTemper.setOnTouchListener(View.OnTouchListener { v, event ->
+                v.isFocusable = true
+                v.isFocusableInTouchMode = true
+                false
+            })
             editTextTemper.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     citys[city].temperature[positionAdapter] = s.toString().toInt()

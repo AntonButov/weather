@@ -4,9 +4,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+
 
 class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
     RecyclerView.Adapter<RecyclerAdapterCitys.ViewHolderCitys>() {
@@ -21,6 +23,11 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
     override fun onBindViewHolder(holder: ViewHolderCitys, positionAdapter: Int) {
         holder.run {
             editTextViewItemName.setText(citys[positionAdapter].name)
+            editTextViewItemName.setOnTouchListener(OnTouchListener { v, event ->
+                v.isFocusable = true
+                v.isFocusableInTouchMode = true
+                false
+            })
             editTextViewItemName.addTextChangedListener(object : TextWatcher{
                 override fun afterTextChanged(s: Editable?) {
                     citys[positionAdapter].name = s.toString()

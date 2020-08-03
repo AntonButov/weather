@@ -20,6 +20,7 @@
         android:inputType="number"
         android:maxLines="1"
         android:textSize="18sp"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
