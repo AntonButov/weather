@@ -24,7 +24,8 @@ open class City(name : String, type : Int) {
 
     @SerializedName("temperature")
     @TypeConverters(Converter::class)
-    var temperature = mutableListOf<Int?>(null, null, null, null, null, null, null, null, null, null, null, null)
+    var temperature =
+        mutableListOf<Int?>(null, null, null, null, null, null, null, null, null, null, null, null)
 
     init {
         this.name = name

@@ -21,4 +21,17 @@
         <item>Ноябрь</item>
         <item>Декабрь</item>
     </string-array>
+
+    <string-array name="sesons">
+        <item>Зима</item>
+        <item>Весна</item>
+        <item>Лето</item>
+        <item>Осень</item>
+    </string-array>
+
+    <string-array name="strategy">
+        <item>Цельсий</item>
+        <item>Фаренгейт</item>
+        <item>Кельвин</item>
+    </string-array>
 </resources>
