@@ -25,4 +25,15 @@ class InstrumentedTest {
         assertTrue(sity.name.equals("test"))
     }
 
+    @Test
+    fun temperForSeson() {
+        var city = City("cityTest", 0)
+        city.temperature =
+            mutableListOf<Int?>(10, null, null, 5, 5, null, 15, null, null, 20, null, null)
+        assertTrue(TemperatureSeson.getTemperatureForSeson(city = city, seson = 0) == 10.toFloat())
+        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 1) , 5.toFloat())
+        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 2) , 15.toFloat())
+        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 3) , 20.toFloat())
+    }
+
 }

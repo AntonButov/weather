@@ -33,7 +33,7 @@ class MainViewModel : ViewModel() {
     fun notifyUI() {
         if (citys.size > 0 ) {
             var tN = 0
-            t = repo.getTemperatureForSeson(citys[city], seson).toInt()
+            t = TemperatureSeson.getTemperatureForSeson(citys[city], seson).toInt()
             when (strategy) {
                 0 -> tN = t
                 1 -> tN = farengate.calculateTemper(t)
