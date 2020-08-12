@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import pro.butovanton.weather.strategy.Strategy
 
 @RunWith(AndroidJUnit4::class)
 class InstrumentedTest {
@@ -30,10 +31,17 @@ class InstrumentedTest {
         var city = City("cityTest", 0)
         city.temperature =
             mutableListOf<Int?>(10, null, null, 5, 5, null, 15, null, null, 20, null, null)
-        assertTrue(TemperatureSeson.getTemperatureForSeson(city = city, seson = 0) == 10.toFloat())
+        assertEquals(TemperatureSeson.getTemperatureForSeson(city,  0) , 10.toFloat())
         assertEquals(TemperatureSeson.getTemperatureForSeson(city, 1) , 5.toFloat())
         assertEquals(TemperatureSeson.getTemperatureForSeson(city, 2) , 15.toFloat())
         assertEquals(TemperatureSeson.getTemperatureForSeson(city, 3) , 20.toFloat())
+    }
+
+    @Test
+    fun strategy() {
+        assertEquals(10.toFloat(), Strategy.calculate(0, 10.toFloat()))
+        assertEquals(104.toFloat(), Strategy.calculate(1, 40.toFloat()))
+        assertEquals(283.15.toFloat(), Strategy.calculate(2, 10.toFloat()))
     }
 
 }

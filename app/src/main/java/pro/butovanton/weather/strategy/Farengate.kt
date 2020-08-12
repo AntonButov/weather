@@ -1,7 +1,7 @@
 package pro.butovanton.weather.strategy
 
 class Farengate : temperatureCalculation {
-    override fun calculateTemper(tC: Int): Int {
-        return tC + 32
+    override fun calculateTemper(tC: Float): Float {
+        return (tC * 9 /5  + 32).toFloat()
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import pro.butovanton.weather.strategy.Calvin
 import pro.butovanton.weather.strategy.Farengate
+import pro.butovanton.weather.strategy.Strategy
 
 class MainViewModel : ViewModel() {
 
@@ -16,11 +17,6 @@ class MainViewModel : ViewModel() {
     val repo = Repo.instance
     val cityNames: MutableList<String> = mutableListOf()
     val uiInfoMut = MutableLiveData<UiInfo>()
-    val calvin = Calvin()
-    val farengate = Farengate()
-
-    var t = 0
-
 
     fun getCitysNames() : List<String> {
         citys = repo.getCitys()
@@ -32,14 +28,10 @@ class MainViewModel : ViewModel() {
 
     fun notifyUI() {
         if (citys.size > 0 ) {
-            var tN = 0
-            t = TemperatureSeson.getTemperatureForSeson(citys[city], seson).toInt()
-            when (strategy) {
-                0 -> tN = t
-                1 -> tN = farengate.calculateTemper(t)
-                2 -> tN = calvin.calculateTemper(t)
-            }
-            uiInfoMut.postValue(UiInfo(citys[city].type, tN))
+            var t : Float
+            t = TemperatureSeson.getTemperatureForSeson(citys[city], seson)
+            t = Strategy.calculate(strategy, t)
+            uiInfoMut.postValue(UiInfo(citys[city].type, t.toInt()))
         }
     }
 

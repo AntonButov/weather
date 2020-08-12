@@ -1,5 +1,5 @@
 package pro.butovanton.weather.strategy
 
 interface temperatureCalculation {
-    fun calculateTemper(tC: Int) : Int
+    fun calculateTemper(tC: Float) : Float
 }
