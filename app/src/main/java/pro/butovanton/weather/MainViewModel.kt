@@ -16,7 +16,6 @@ class MainViewModel : ViewModel() {
 
     val repo = Repo.instance
     val cityNames: MutableList<String> = mutableListOf()
-    val uiInfoMut = MutableLiveData<UiInfo>()
 
     fun getCitysNames() : List<String> {
         citys = repo.getCitys()
@@ -26,16 +25,11 @@ class MainViewModel : ViewModel() {
     return cityNames
     }
 
-    fun notifyUI() {
-        if (citys.size > 0 ) {
-            var t : Float
-            t = TemperatureSeson.getTemperatureForSeson(citys[city], seson)
-            t = Strategy.calculate(strategy, t)
-            uiInfoMut.postValue(UiInfo(citys[city].type, t.toInt()))
-        }
+    fun getCityType(city : Int) : Int {
+        this.city = city
+        return citys[city].type
     }
 
-    fun getInfo(): LiveData<UiInfo> {
-        return uiInfoMut
-    }
+    fun getTemper() = Strategy.calculate(strategy, TemperatureSeson.getTemperatureForSeson(city = citys[city], seson = seson))
+
 }

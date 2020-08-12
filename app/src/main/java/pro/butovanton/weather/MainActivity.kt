@@ -28,6 +28,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        textViewTemper = findViewById(R.id.textViewTemper)
+        fun showTemper() {
+            textViewTemper.setText(model.getTemper().toString())
+        }
+
+        val types = resources.obtainTypedArray(R.array.size_city)
+        textViewTypeCity = findViewById(R.id.textViewTypeCity)
+        fun showTypeCity(city : Int) {
+            textViewTypeCity.setText(types.getText(model.getCityType(city)))
+        }
+
         buttonCytes = findViewById(R.id.buttonSytes)
         buttonCytes.setOnClickListener() {
             view -> val intent = Intent(this, ActivitySitys:: class.java)
@@ -45,15 +56,13 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
-
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
-                position: Int,
+                city: Int,
                 id: Long
             ) {
-              model.city = position
-              model.notifyUI()
+             showTypeCity(city)
             }
 
         }
@@ -66,11 +75,11 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
-                position: Int,
+                seson: Int,
                 id: Long
             ) {
-            model.seson = position
-            model.notifyUI()
+            model.seson = seson
+            showTemper()
             }
         }
         strategySpinner = findViewById(R.id.spinnerStrategy)
@@ -91,14 +100,13 @@ class MainActivity : AppCompatActivity() {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
-                position: Int,
+                strategy: Int,
                 id: Long
             ) {
-                model.strategy = position
-                model.notifyUI()
+                model.strategy = strategy
+                showTemper()
             }
         }
-        val types = resources.obtainTypedArray(R.array.size_city)
         ArrayAdapter.createFromResource(
             this,
             R.array.sesons,
@@ -108,26 +116,12 @@ class MainActivity : AppCompatActivity() {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 sesonsSpinner.adapter = adapter
             }
-        textViewTypeCity = findViewById(R.id.textViewTypeCity)
-        textViewTemper = findViewById(R.id.textViewTemper)
 
-        model.getInfo().observe(this, Observer {
-            uiInfo -> textViewTypeCity.setText(types.getText(uiInfo.type))
-                     if (uiInfo.temepr == - 255)
-                         textViewTemper.setText("")
-                    else
-                        textViewTemper.setText(uiInfo.temepr.toString())
-        })
     }
 
     override fun onResume() {
         super.onResume()
         spinnerArray = model.getCitysNames()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        model.getInfo().removeObservers(this)
     }
 
 }
