@@ -2,6 +2,8 @@ package pro.butovanton.weather
 
 import android.app.Application
 import androidx.room.Room
+import pro.butovanton.weather.Data.AppDatabase
+import pro.butovanton.weather.Data.Repo
 
 class App : Application() {
 
@@ -13,7 +15,7 @@ class App : Application() {
                 .allowMainThreadQueries()
                 .build()
         val dao = db.getDao()
-        Repo.instance.setDao(dao)
+        Repo.get(dao)
     }
 
 }

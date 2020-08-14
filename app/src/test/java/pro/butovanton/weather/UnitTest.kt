@@ -3,6 +3,8 @@ package pro.butovanton.weather
 import org.junit.Test
 
 import org.junit.Assert.*
+import pro.butovanton.weather.Data.Repo
+import pro.butovanton.weather.Factory.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -17,7 +19,7 @@ class UnitTest {
         val name = "Test"
 
         city = factory.Creat(0, name)
-        assertTrue(city is Small )
+        assertTrue(city is Small)
 
         city = factory.Creat(1, name)
         assertTrue(city is Medium)

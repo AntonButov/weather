@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Factory
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import pro.butovanton.weather.Data.Converter
 import java.io.Serializable
 import java.lang.reflect.Type
 

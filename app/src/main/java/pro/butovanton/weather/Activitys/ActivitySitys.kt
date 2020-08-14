@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Activitys
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.Factory
+import pro.butovanton.weather.R
+import pro.butovanton.weather.ViewModels.CitysViewModel
 
-class ActivitySitys : AppCompatActivity(), notifyCitys  {
+class ActivitySitys : AppCompatActivity(),
+    notifyCitys {
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: RecyclerAdapterCitys

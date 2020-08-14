@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Activitys
 
 import android.content.Intent
 import android.content.res.TypedArray
@@ -6,12 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import pro.butovanton.weather.R
+import pro.butovanton.weather.ViewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,21 +20,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var spinnerArray: List<String>
     lateinit var textViewTypeCity: TextView
     lateinit var textViewTemper: TextView
+    lateinit var types : TypedArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        textViewTemper = findViewById(R.id.textViewTemper)
-        fun showTemper() {
-            textViewTemper.setText(model.getTemper().toString())
-        }
+        types = resources.obtainTypedArray(R.array.size_city)
 
-        val types = resources.obtainTypedArray(R.array.size_city)
+        textViewTemper = findViewById(R.id.textViewTemper)
         textViewTypeCity = findViewById(R.id.textViewTypeCity)
-        fun showTypeCity(city : Int) {
-            textViewTypeCity.setText(types.getText(model.getCityType(city)))
-        }
 
         buttonCytes = findViewById(R.id.buttonSytes)
         buttonCytes.setOnClickListener() {
@@ -117,6 +109,14 @@ class MainActivity : AppCompatActivity() {
                 sesonsSpinner.adapter = adapter
             }
 
+    }
+
+    fun showTemper() {
+        textViewTemper.setText(model.getTemper().toString())
+    }
+
+    fun showTypeCity(city : Int) {
+        textViewTypeCity.setText(types.getText(model.getCityType(city)))
     }
 
     override fun onResume() {

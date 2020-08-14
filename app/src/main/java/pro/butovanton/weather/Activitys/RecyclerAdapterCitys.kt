@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Activitys
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +8,8 @@ import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.R
 
 
 class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
@@ -17,7 +19,10 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCitys {
         val view = mInflater.inflate(R.layout.item, parent, false)
-        return ViewHolderCitys(view, activitySitys)
+        return ViewHolderCitys(
+            view,
+            activitySitys
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolderCitys, positionAdapter: Int) {

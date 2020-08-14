@@ -1,5 +1,7 @@
 package pro.butovanton.weather
 
+import pro.butovanton.weather.Factory.City
+
 class TemperatureSeson {
     companion object {
    private var winter = listOf(11, 0, 1)

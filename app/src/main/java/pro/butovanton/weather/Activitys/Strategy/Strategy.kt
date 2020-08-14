@@ -1,4 +1,4 @@
-package pro.butovanton.weather.strategy
+package pro.butovanton.weather.Activitys.Strategy
 
 class Strategy {
 

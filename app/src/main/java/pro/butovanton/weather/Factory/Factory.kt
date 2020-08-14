@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Factory
 
 class Factory {
 

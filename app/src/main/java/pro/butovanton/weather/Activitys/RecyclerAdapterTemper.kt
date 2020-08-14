@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Activitys
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.R
 
 class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val citys: List<City>) :
     RecyclerView.Adapter<RecyclerAdapterTemper.ViewHolderTemper>() {
@@ -17,11 +19,14 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderTemper {
         val view = mInflater.inflate(R.layout.item_temperatures, parent, false)
-        return ViewHolderTemper(view, context)
+        return ViewHolderTemper(
+            view,
+            context
+        )
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerAdapterTemper.ViewHolderTemper,
+        holder: ViewHolderTemper,
         positionAdapter: Int
     ) {
         holder.run {

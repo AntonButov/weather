@@ -1,4 +1,4 @@
-package pro.butovanton.weather.strategy
+package pro.butovanton.weather.Activitys.Strategy
 
 class Farengate : temperatureCalculation {
     override fun calculateTemper(tC: Float): Float {

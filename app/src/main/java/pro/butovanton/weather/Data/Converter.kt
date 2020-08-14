@@ -1,4 +1,4 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Data
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

@@ -1,4 +1,6 @@
-package pro.butovanton.weather
+package pro.butovanton.weather.Activitys
+
+import pro.butovanton.weather.Factory.City
 
 interface notifyCitys {
     fun citys(cities : List<City>)

@@ -8,7 +8,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import pro.butovanton.weather.strategy.Strategy
+import pro.butovanton.weather.Data.AppDatabase
+import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Activitys.Strategy.Strategy
 
 @RunWith(AndroidJUnit4::class)
 class InstrumentedTest {
@@ -16,14 +18,18 @@ class InstrumentedTest {
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun dbTest() {
-        val db = Room.databaseBuilder(appContext, AppDatabase::class.java,"sitys").allowMainThreadQueries().build()
+    fun dbTestNew() {
+        val db = InjectorUtils.provideDb(appContext)
         val dao = db.getDao()
-        dao.insertSity(City("test",0))
+        var aldCity = dao.getSitys()
+        dao.deleteAll()
+        dao.insertSity(City("test", 0))
         var cities: List<City> = dao.getSitys()
         var sity = cities.get(0)
-        dao.deleteAll()
         assertTrue(sity.name.equals("test"))
+        dao.deleteAll()
+        for (city : City in aldCity)
+            dao.insertSity(city)
     }
 
     @Test
