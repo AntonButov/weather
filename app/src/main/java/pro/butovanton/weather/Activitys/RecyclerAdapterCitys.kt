@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.R
 
 
 class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
     RecyclerView.Adapter<RecyclerAdapterCitys.ViewHolderCitys>() {
-    var citys: MutableList<City> = mutableListOf()
+    var citys: MutableList<CityModel> = mutableListOf()
     val mInflater: LayoutInflater = LayoutInflater.from(activitySitys);
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCitys {
@@ -83,7 +84,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
         return if (citys == null) 0 else citys.size
     }
 
-    fun adnotify(citys: MutableList<City>) {
+    fun adnotify(citys: MutableList<CityModel>) {
         this.citys = citys
         notifyDataSetChanged()
     }

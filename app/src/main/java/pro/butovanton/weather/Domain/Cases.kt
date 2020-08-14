@@ -6,5 +6,6 @@ interface Cases {
     fun addNew(name : String, type : Int)
     fun getAll() : List<City>
     fun saveAll(citys : List<City>)
-    fun getTemper(city : Int, seson : Int) : Float
+    fun update(city : City)
+    fun getTemper(city : Int, seson : Int, strategy : Int) : Float
 }

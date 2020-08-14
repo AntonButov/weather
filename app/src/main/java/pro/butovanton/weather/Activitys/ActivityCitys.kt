@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.CitysViewModel
+import pro.butovanton.weather.ViewModels.TemperViewModel
 
 class ActivityCitys : AppCompatActivity(),
     notifyCitys {
@@ -19,7 +21,7 @@ class ActivityCitys : AppCompatActivity(),
     lateinit var adapter: RecyclerAdapterCitys
     lateinit var lm : LinearLayoutManager
     lateinit var buttonAdd: Button
-    lateinit var citys : MutableList<City>
+    lateinit var citys : MutableList<CityModel>
     val factory = Factory()
     lateinit var model : CitysViewModel
 
@@ -44,18 +46,19 @@ class ActivityCitys : AppCompatActivity(),
     }
 
     fun reload() {
-        citys = model.getCitys()
+        citys = model.getAll()
         adapter.adnotify(citys)
     }
 
     fun save() {
-        model.setCitys(citys)
+        model.setAll(citys)
     }
 
-     override fun citys(citys: List<City>) {
-         this.citys = citys as MutableList<City>
-         save()
-     }
+    override fun citys(citys: MutableList<CityModel>) {
+        this.citys = citys
+        save()
+    }
+
 
     override fun temper(city: Int) {
         intent = Intent(this, ActivityTemper::class.java)

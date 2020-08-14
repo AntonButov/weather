@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 city: Int,
                 id: Long
             ) {
-             showTypeCity(city)
+             onResume()
             }
 
         }
@@ -112,7 +112,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showTemper() {
-        textViewTemper.setText(model.getTemper().toString())
+        var t = model.getTemper(strategySpinner.selectedItemPosition)
+        if (t == -255.toFloat())
+            textViewTemper.setText("")
+        else
+            textViewTemper.setText(t.toString())
     }
 
     fun showTypeCity(city : Int) {
@@ -122,6 +126,8 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         spinnerArray = model.getCitysNames()
+        showTypeCity(spinnerCity.selectedItemPosition)
+        showTemper()
     }
 
 }

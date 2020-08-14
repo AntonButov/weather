@@ -1,5 +1,6 @@
 package pro.butovanton.weather.Domain
 
+import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.Factory
 
@@ -17,13 +18,19 @@ class Interactor(private val boundares: Boundares) : Cases {
         boundares.saveAll(citys)
     }
 
-    override fun getTemper(city: Int, seson: Int): Float {
+    override fun update(city: City) {
+        boundares.update(city)
+    }
+
+    override fun getTemper(city: Int, seson: Int, strategy : Int): Float {
     var citys = getAll()
         if (citys.size > 0 )
-        return TemperatureSeson.getTemperatureForSeson(
-            getAll()[city],
-            seson = seson
-        )
+            return Strategy.calculate(strategy,
+        TemperatureSeson
+            .getTemperatureForSeson(
+                getAll()[city],
+                seson = seson
+            ))
         else return -255.toFloat();
     }
 

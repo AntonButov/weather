@@ -28,7 +28,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return citys[city].type
     }
 
-    fun getTemper() : Float {
-        return interactor.getTemper(city, seson)
+    fun getTemper(strategy : Int) : Float {
+        return interactor.getTemper(city, seson, strategy)
     }
 }

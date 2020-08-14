@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.R
 
-class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val citys: List<City>) :
+class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val temperatures: MutableList<Int?>) :
     RecyclerView.Adapter<RecyclerAdapterTemper.ViewHolderTemper>() {
     val mInflater: LayoutInflater = LayoutInflater.from(context);
     val months: TypedArray = context.resources.obtainTypedArray(R.array.months)
@@ -31,7 +31,7 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
     ) {
         holder.run {
             textViewMonth.setText(months.getString(positionAdapter))
-            val t = citys[city].temperature[positionAdapter]
+            val t = temperatures[positionAdapter]
             if (t != null)
                    editTextTemper.setText("" + t)
             editTextTemper.setOnTouchListener(View.OnTouchListener { v, event ->
@@ -41,7 +41,7 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
             })
             editTextTemper.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    citys[city].temperature[positionAdapter] = s.toString().toInt()
+                    temperatures[positionAdapter] = s.toString().toInt()
                     save()
                 }
 
@@ -66,7 +66,7 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val ci
     }
 
         fun save() {
-        context.temperatureSave(citys)
+        context.temperatureSave(temperatures)
         }
 
     class ViewHolderTemper(view: View, context: Context) :
