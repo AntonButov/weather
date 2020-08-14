@@ -12,7 +12,7 @@ import pro.butovanton.weather.Factory.Factory
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.CitysViewModel
 
-class ActivitySitys : AppCompatActivity(),
+class ActivityCitys : AppCompatActivity(),
     notifyCitys {
 
     lateinit var recyclerView: RecyclerView
@@ -34,15 +34,18 @@ class ActivitySitys : AppCompatActivity(),
         recyclerView.adapter = adapter
 
         model = ViewModelProvider(this).get(CitysViewModel::class.java)
-        citys = model.getCitys()
-        adapter.adnotify(citys)
+        reload()
 
         buttonAdd = findViewById(R.id.buttonAddCity)
         buttonAdd.setOnClickListener() {
-            citys.add(factory.Creat(0, "введите имя"))
-            adapter.adnotify(citys)
-            save()
+            model.addNew("Введите имя", 0)
+            reload()
         }
+    }
+
+    fun reload() {
+        citys = model.getCitys()
+        adapter.adnotify(citys)
     }
 
     fun save() {

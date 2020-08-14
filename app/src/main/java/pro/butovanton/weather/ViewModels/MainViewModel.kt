@@ -2,11 +2,7 @@ package pro.butovanton.weather.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import pro.butovanton.weather.Factory.City
-import pro.butovanton.weather.Data.Repo
-import pro.butovanton.weather.TemperatureSeson
-import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.InjectorUtils
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {

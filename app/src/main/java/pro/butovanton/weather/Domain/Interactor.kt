@@ -1,14 +1,15 @@
 package pro.butovanton.weather.Domain
 
 import pro.butovanton.weather.Factory.City
-import pro.butovanton.weather.TemperatureSeson
+import pro.butovanton.weather.Factory.Factory
 
 class Interactor(private val boundares: Boundares) : Cases {
-    override fun addNew() {
-        TODO("Not yet implemented")
+
+    override fun addNew(name: String, type: Int) {
+       boundares.insert(Factory().Creat(type, name))
     }
 
-   override fun getAll(): MutableList<City> {
+    override fun getAll(): MutableList<City> {
        return boundares.getAll()
     }
 

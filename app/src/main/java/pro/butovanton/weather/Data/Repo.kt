@@ -25,4 +25,8 @@ class Repo(val daoC : daoCity) : Boundares {
         for (city : City in citys)
             daoC.insertSity(city)
     }
+
+    override fun insert(city: City) {
+        daoC.insertSity(city)
+    }
 }

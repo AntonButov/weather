@@ -12,7 +12,7 @@ import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.R
 
 
-class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
+class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
     RecyclerView.Adapter<RecyclerAdapterCitys.ViewHolderCitys>() {
     var citys: MutableList<City> = mutableListOf()
     val mInflater: LayoutInflater = LayoutInflater.from(activitySitys);
@@ -92,7 +92,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivitySitys) :
         activitySitys.citys(citys)
     }
 
-    class ViewHolderCitys(view: View, activitySitys: ActivitySitys) :
+    class ViewHolderCitys(view: View, activitySitys: ActivityCitys) :
         RecyclerView.ViewHolder(view) {
         val editTextViewItemName: EditText
         val type: Spinner

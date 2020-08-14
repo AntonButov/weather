@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonCytes = findViewById(R.id.buttonSytes)
         buttonCytes.setOnClickListener() {
-            view -> val intent = Intent(this, ActivitySitys:: class.java)
+            view -> val intent = Intent(this, ActivityCitys:: class.java)
                         startActivity(intent)
         }
 

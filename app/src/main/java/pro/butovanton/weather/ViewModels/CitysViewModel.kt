@@ -11,6 +11,10 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
 
    val interactor =  InjectorUtils.provideInteractor(application)
 
+   fun addNew(name : String, type : Int) {
+      interactor.addNew(name, type)
+   }
+
    fun getCitys(): MutableList<City> {
    return interactor.getAll()
    }
