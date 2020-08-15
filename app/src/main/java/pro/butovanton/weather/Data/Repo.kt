@@ -1,5 +1,6 @@
 package pro.butovanton.weather.Data
 
+import io.reactivex.Flowable
 import pro.butovanton.weather.Domain.Boundares
 import pro.butovanton.weather.Factory.City
 
@@ -16,7 +17,7 @@ class Repo(val daoC : daoCity) : Boundares {
             }
     }
 
-    override fun getAll(): MutableList<City> {
+    override fun getAll(): Flowable<MutableList<City>> {
         return daoC.getSitys()
     }
 

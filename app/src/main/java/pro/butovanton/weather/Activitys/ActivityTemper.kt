@@ -24,19 +24,23 @@ class ActivityTemper : AppCompatActivity(),
 
         city = intent.getIntExtra("city", 0)
 
-        model = ViewModelProvider(this).get(TemperViewModel::class.java)
-        temperatures = model.getCityTemperutures(city)
-
         recyclerViewTemper = findViewById(R.id.reciclerTemper)
-        adapterTemper =
-            RecyclerAdapterTemper(
-                this,
-                city,
-                temperatures
-            )
-        lm = LinearLayoutManager(this)
-        recyclerViewTemper.layoutManager = lm
-        recyclerViewTemper.adapter = adapterTemper
+        model = ViewModelProvider(this).get(TemperViewModel::class.java)
+
+        model.getCityTemperutures(city)
+            .subscribe { temperatures ->
+                this.temperatures = temperatures
+                adapterTemper =
+                    RecyclerAdapterTemper(
+                        this,
+                        city,
+                        temperatures
+                    )
+
+                lm = LinearLayoutManager(this)
+                recyclerViewTemper.layoutManager = lm
+                recyclerViewTemper.adapter = adapterTemper
+            }
     }
 
     override fun temperatureSave(temperatures: MutableList<Int?>) {

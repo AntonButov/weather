@@ -25,10 +25,10 @@ class interactorTest {
        var interactor = Interactor(boundaresMock)
 
        assertTrue(interactor.getAll().size > 0)
-       assertTrue(interactor.getTemper(0,0) == 10.toFloat())
-       assertTrue(interactor.getTemper(0,1) == 20.toFloat())
-       assertTrue(interactor.getTemper(0,2) == 30.toFloat())
-       assertTrue(interactor.getTemper(0,3) == 25.toFloat())
+       assertTrue(interactor.getTemper(0,0,0) == 10.toFloat())
+       assertTrue(interactor.getTemper(0,1,0) == 20.toFloat())
+       assertTrue(interactor.getTemper(0,2,0) == 30.toFloat())
+       assertTrue(interactor.getTemper(0,3,0) == 25.toFloat())
     }
 
 }

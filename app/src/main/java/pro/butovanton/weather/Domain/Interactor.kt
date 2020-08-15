@@ -1,5 +1,6 @@
 package pro.butovanton.weather.Domain
 
+import io.reactivex.Flowable
 import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.Factory
@@ -10,7 +11,7 @@ class Interactor(private val boundares: Boundares) : Cases {
        boundares.insert(Factory().Creat(type, name))
     }
 
-    override fun getAll(): MutableList<City> {
+    override fun getAll(): Flowable<MutableList<City>> {
        return boundares.getAll()
     }
 
@@ -22,16 +23,19 @@ class Interactor(private val boundares: Boundares) : Cases {
         boundares.update(city)
     }
 
-    override fun getTemper(city: Int, seson: Int, strategy : Int): Float {
+    override fun getTemper(city: Int, seson: Int, strategy : Int): Flowable<Float> {
     var citys = getAll()
-        if (citys.size > 0 )
-            return Strategy.calculate(strategy,
-        TemperatureSeson
-            .getTemperatureForSeson(
-                getAll()[city],
-                seson = seson
-            ))
-        else return -255.toFloat();
+
+        return citys.map { citys ->
+            if (citys.size > 0 )
+                 Strategy.calculate(strategy,
+                    TemperatureSeson
+                        .getTemperatureForSeson(
+                            citys[city],
+                            seson = seson
+                        ))
+            else -255.toFloat();
+             }
     }
 
     companion object {
@@ -44,4 +48,8 @@ class Interactor(private val boundares: Boundares) : Cases {
             return INSTANCE!!
         }
     }
+}
+
+private fun <T> Flowable<T>.filter(citys: Flowable<T>) {
+
 }

@@ -6,9 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import org.reactivestreams.Subscriber
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.MainViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,10 +22,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var spinnerCity : Spinner
     lateinit var sesonsSpinner : Spinner
     lateinit var strategySpinner : Spinner
-    lateinit var spinnerArray: List<String>
+    var spinnerArray = listOf<String>()
     lateinit var textViewTypeCity: TextView
     lateinit var textViewTemper: TextView
     lateinit var types : TypedArray
+    lateinit var spinnerArrayAdapter : ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +45,16 @@ class MainActivity : AppCompatActivity() {
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        spinnerArray = model.getCitysNames()
-        val spinnerArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray)
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+         model.getCitysNames()
+             .observeOn(AndroidSchedulers.mainThread())
+             .subscribe { cityNames ->
+                 spinnerArray = cityNames }
+             .dispose()
+            spinnerArrayAdapter =
+                     ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray)
+                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+
         spinnerCity = findViewById(R.id.spinnerCity)
         spinnerCity.adapter = spinnerArrayAdapter
         spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -112,7 +125,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showTemper() {
-        var t = model.getTemper(strategySpinner.selectedItemPosition)
+       var t = model.getTemper(strategySpinner.selectedItemPosition)
         if (t == -255.toFloat())
             textViewTemper.setText("")
         else
@@ -120,15 +133,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showTypeCity(city : Int) {
-        textViewTypeCity.setText(types.getText(model.getCityType(city)))
+        if (city >= 0)
+            model.getCityType(city)
+                   .subscribe { type -> textViewTypeCity.setText(types.getText(type))}
+                   .dispose()
     }
 
     override fun onResume() {
         super.onResume()
-        spinnerArray = model.getCitysNames()
+
+        model.getCitysNames()
+            .subscribe { cityNames -> spinnerArray = cityNames }
+            .dispose()
         showTypeCity(spinnerCity.selectedItemPosition)
         showTemper()
     }
+
 
 }
 

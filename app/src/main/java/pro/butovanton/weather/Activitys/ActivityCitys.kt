@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
@@ -21,9 +25,10 @@ class ActivityCitys : AppCompatActivity(),
     lateinit var adapter: RecyclerAdapterCitys
     lateinit var lm : LinearLayoutManager
     lateinit var buttonAdd: Button
-    lateinit var citys : MutableList<CityModel>
+    var citys = mutableListOf<CityModel>()
     val factory = Factory()
     lateinit var model : CitysViewModel
+    lateinit var dataCitys : Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,30 +41,28 @@ class ActivityCitys : AppCompatActivity(),
         recyclerView.adapter = adapter
 
         model = ViewModelProvider(this).get(CitysViewModel::class.java)
-        reload()
+        dataCitys = model.getAll()
+             .observeOn(AndroidSchedulers.mainThread())
+             .subscribe { citys -> this.citys = citys
+                 adapter.adnotify(citys)
+             }
+
 
         buttonAdd = findViewById(R.id.buttonAddCity)
         buttonAdd.setOnClickListener() {
             model.addNew("Введите имя", 0)
-            reload()
         }
-    }
-
-    fun reload() {
-        citys = model.getAll()
-        adapter.adnotify(citys)
-    }
-
-    fun save() {
-        model.setAll(citys)
     }
 
     override fun citys(citys: MutableList<CityModel>) {
         this.citys = citys
-        save()
     }
 
-
+    override fun onStop() {
+        super.onStop()
+        dataCitys.dispose()
+        model.setAll(citys)
+    }
     override fun temper(city: Int) {
         intent = Intent(this, ActivityTemper::class.java)
         intent.putExtra("city", city)

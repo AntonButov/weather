@@ -2,25 +2,27 @@ package pro.butovanton.weather.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
+import io.reactivex.Flowable
 import pro.butovanton.weather.Factory.City
-import pro.butovanton.weather.Data.Repo
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.InjectorUtils
 
 class CitysViewModel(application: Application) : AndroidViewModel(application) {
 
    val interactor =  InjectorUtils.provideInteractor(application)
+   lateinit var cityCash: MutableList<City>
 
    fun addNew(name : String, type : Int) {
       interactor.addNew(name, type)
    }
 
-   fun getAll() : MutableList<CityModel> {
-      return mapModels(interactor.getAll())
+   fun getAll() : Flowable<MutableList<CityModel>> {
+      return interactor.getAll()
+         .map { citys -> mapModels(citys) }
    }
 
-   fun mapModels(citys : List<City>) : MutableList<CityModel> {
+   fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
+      cityCash = citys
       var cityModels = mutableListOf<CityModel>()
       for (city : City  in citys)
          cityModels.add(mapModel(city))
@@ -32,12 +34,10 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
    }
 
    fun setAll(cityModels: List<CityModel>) {
-      var citys = interactor.getAll()
-      for (i  in 0 .. citys.size - 1 ) {
-         citys[i].name = cityModels[i].name
-         citys[i].type = cityModels[i].type
+      for (i in 0 .. cityCash.size -1) {
+         cityCash[i].name = cityModels[i].name
+         cityCash[i].type = cityModels[i].type
       }
-      interactor.saveAll(citys)
+      interactor.saveAll(cityCash)
    }
-
 }
