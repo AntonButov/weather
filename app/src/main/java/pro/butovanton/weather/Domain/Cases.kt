@@ -8,5 +8,4 @@ interface Cases {
     fun getAll() : Flowable<MutableList<City>>
     fun saveAll(citys : List<City>)
     fun update(city : City)
-    fun getTemper(city : Int, seson : Int, strategy : Int) : Flowable<Float>
 }

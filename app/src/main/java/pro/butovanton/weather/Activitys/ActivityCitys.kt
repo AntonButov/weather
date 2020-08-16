@@ -28,7 +28,7 @@ class ActivityCitys : AppCompatActivity(),
     var citys = mutableListOf<CityModel>()
     val factory = Factory()
     lateinit var model : CitysViewModel
-    lateinit var dataCitys : Disposable
+    lateinit var dataCirys : Disposable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class ActivityCitys : AppCompatActivity(),
         recyclerView.adapter = adapter
 
         model = ViewModelProvider(this).get(CitysViewModel::class.java)
-        dataCitys = model.getAll()
+        dataCirys = model.getAll()
              .observeOn(AndroidSchedulers.mainThread())
              .subscribe { citys -> this.citys = citys
                  adapter.adnotify(citys)
@@ -60,7 +60,7 @@ class ActivityCitys : AppCompatActivity(),
 
     override fun onStop() {
         super.onStop()
-        dataCitys.dispose()
+       // dataCirys.dispose()
         model.setAll(citys)
     }
     override fun temper(city: Int) {

@@ -2,6 +2,7 @@ package pro.butovanton.weather.Activitys
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +16,7 @@ class ActivityTemper : AppCompatActivity(),
     lateinit var recyclerViewTemper: RecyclerView
     lateinit var adapterTemper: RecyclerAdapterTemper
     lateinit var lm : LinearLayoutManager
-    lateinit var temperatures : MutableList<Int?>
+    var temperatures = mutableListOf<Int?>()
     lateinit var model : TemperViewModel
     var city : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +28,7 @@ class ActivityTemper : AppCompatActivity(),
         recyclerViewTemper = findViewById(R.id.reciclerTemper)
         model = ViewModelProvider(this).get(TemperViewModel::class.java)
 
-        model.getCityTemperutures(city)
-            .subscribe { temperatures ->
+        model.registerTemperatureObserver(city).observe(this, Observer {temperatures ->
                 this.temperatures = temperatures
                 adapterTemper =
                     RecyclerAdapterTemper(
@@ -40,7 +40,7 @@ class ActivityTemper : AppCompatActivity(),
                 lm = LinearLayoutManager(this)
                 recyclerViewTemper.layoutManager = lm
                 recyclerViewTemper.adapter = adapterTemper
-            }
+    })
     }
 
     override fun temperatureSave(temperatures: MutableList<Int?>) {

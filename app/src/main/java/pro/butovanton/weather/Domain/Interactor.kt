@@ -23,21 +23,6 @@ class Interactor(private val boundares: Boundares) : Cases {
         boundares.update(city)
     }
 
-    override fun getTemper(city: Int, seson: Int, strategy : Int): Flowable<Float> {
-    var citys = getAll()
-
-        return citys.map { citys ->
-            if (citys.size > 0 )
-                 Strategy.calculate(strategy,
-                    TemperatureSeson
-                        .getTemperatureForSeson(
-                            citys[city],
-                            seson = seson
-                        ))
-            else -255.toFloat();
-             }
-    }
-
     companion object {
         private var INSTANCE: Interactor? = null
 
@@ -50,6 +35,3 @@ class Interactor(private val boundares: Boundares) : Cases {
     }
 }
 
-private fun <T> Flowable<T>.filter(citys: Flowable<T>) {
-
-}

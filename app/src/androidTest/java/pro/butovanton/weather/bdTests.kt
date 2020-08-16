@@ -2,6 +2,7 @@ package pro.butovanton.weather
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.reactivex.Flowable
 import org.junit.After
 
 import org.junit.Test
@@ -23,8 +24,9 @@ class bdTests {
 
     @Before
     fun before() {
-        aldCity = dao.getSitys()
-        dao.deleteAll()
+        dao.getSitys()
+            .subscribe {aldCity -> this.aldCity = aldCity
+        dao.deleteAll() }
     }
 
     @After
@@ -37,9 +39,10 @@ class bdTests {
     @Test
     fun dbTestNew() {
         dao.insertSity(City("test", 0))
-        var cities: List<City> = dao.getSitys()
-        var sity = cities.get(0)
-        assertTrue(sity.name.equals("test"))
+        var result = mutableListOf<City>()
+        dao.getSitys()
+            .subscribe { c -> result = c }
+        assertTrue(result[0].name.equals("test"))
     }
 
 }

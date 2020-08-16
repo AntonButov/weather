@@ -1,8 +1,17 @@
 package pro.butovanton.weather.ViewModels
 
 import android.app.Application
+import androidx.annotation.MainThread
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import io.reactivex.Flowable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.InjectorUtils
 
@@ -11,40 +20,71 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     var city : Int = 0
     var seson : Int = 0
     var strategy : Int = 0
+    var temper = MutableLiveData<Float>()
+    var type = MutableLiveData<Int>()
+    var citysNamesM = MutableLiveData<List<String>>()
 
     val interactor = InjectorUtils.provideInteractor(application)
     val cityNames: MutableList<String> = mutableListOf()
 
-    fun getCitysNames() : Flowable<List<String>> {
-        return interactor.getAll()
+    var citysCash = listOf<City>()
+
+    fun getCitysNames() : LiveData<List<String>> {
+        getDataFromBD()
+        return citysNamesM
+        }
+
+    fun getDataFromBD() {
+        interactor.getAll()
             .map {citys ->
                 mapNames(citys)
             }
+            .subscribe { cityNames ->
+                citysNamesM.postValue(cityNames)
+            notifyType()}
     }
 
     fun mapNames(citys : List<City>) : List<String> {
+        citysCash = citys
         cityNames.clear()
         for (city in citys)
             cityNames.add(city.name)
     return cityNames
     }
 
-    fun getCityType(city : Int) : Flowable<Int> {
+    fun setCityAndNotify(city : Int) {
         this.city = city
-        return interactor.getAll()
-            .filter { c -> c.size > 0 }
-            .map { citys ->  citys[city].type }
+        notifyType()
     }
 
-    fun cityType(citys : List<City>, city : Int) : Int {
-        if (citys.size > 0)
-            return 0
-        else
-            return citys[city].type
+    fun notifyType() {
+        if (citysCash.size > 0)
+          type.postValue(citysCash[city!!].type)
     }
 
-    fun getTemper(strategy : Int) : Float {
-        return 0.toFloat()
-        interactor.getTemper(city, seson, strategy)
+    fun setSesonAndNotify(seson : Int) {
+        this.seson = seson
+        notifyTemperature()
+    }
+
+    fun setStrategyAndNotify() {
+        notifyTemperature()
+    }
+
+    fun notifyTemperature() {
+        if (citysCash.size > 0)
+            temper.value = TemperatureSeson
+                .getTemperatureForSeson(city = citysCash[city!!],seson = seson!!)
+    }
+
+    fun registerObserverCityType() : LiveData<Int> {
+        return type
+    }
+
+
+
+    fun registerObserverTemperature() : LiveData<Float> {
+
+        return temper
     }
 }

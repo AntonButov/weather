@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import org.reactivestreams.Subscriber
+import pro.butovanton.weather.Activitys.Strategy.Strategy
+import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.MainViewModel
 import java.util.*
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var spinnerCity : Spinner
     lateinit var sesonsSpinner : Spinner
     lateinit var strategySpinner : Spinner
-    var spinnerArray = listOf<String>()
+    var spinnerArray = listOf<String>("Тест")
     lateinit var textViewTypeCity: TextView
     lateinit var textViewTemper: TextView
     lateinit var types : TypedArray
@@ -45,18 +47,15 @@ class MainActivity : AppCompatActivity() {
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
 
-         model.getCitysNames()
-             .observeOn(AndroidSchedulers.mainThread())
-             .subscribe { cityNames ->
-                 spinnerArray = cityNames }
-             .dispose()
-            spinnerArrayAdapter =
-                     ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray)
-                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
+         model.getCitysNames().observe(this, Observer { cityNames ->
+             spinnerArrayAdapter =
+                 ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityNames)
+             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+             spinnerCity.adapter = spinnerArrayAdapter
+             spinnerCity.setSelection(model.city!!)
+         })
 
         spinnerCity = findViewById(R.id.spinnerCity)
-        spinnerCity.adapter = spinnerArrayAdapter
         spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                 city: Int,
                 id: Long
             ) {
-             onResume()
+            model.setCityAndNotify(city)
             }
 
         }
@@ -83,8 +82,7 @@ class MainActivity : AppCompatActivity() {
                 seson: Int,
                 id: Long
             ) {
-            model.seson = seson
-            showTemper()
+            model.setSesonAndNotify(seson)
             }
         }
         strategySpinner = findViewById(R.id.spinnerStrategy)
@@ -108,8 +106,7 @@ class MainActivity : AppCompatActivity() {
                 strategy: Int,
                 id: Long
             ) {
-                model.strategy = strategy
-                showTemper()
+                model.setStrategyAndNotify()
             }
         }
         ArrayAdapter.createFromResource(
@@ -122,31 +119,16 @@ class MainActivity : AppCompatActivity() {
                 sesonsSpinner.adapter = adapter
             }
 
-    }
+        model.registerObserverCityType().observe(this, Observer { type ->
+            textViewTypeCity.text = types.getText(type).toString()
+        })
 
-    fun showTemper() {
-       var t = model.getTemper(strategySpinner.selectedItemPosition)
-        if (t == -255.toFloat())
-            textViewTemper.setText("")
-        else
-            textViewTemper.setText(t.toString())
-    }
-
-    fun showTypeCity(city : Int) {
-        if (city >= 0)
-            model.getCityType(city)
-                   .subscribe { type -> textViewTypeCity.setText(types.getText(type))}
-                   .dispose()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        model.getCitysNames()
-            .subscribe { cityNames -> spinnerArray = cityNames }
-            .dispose()
-        showTypeCity(spinnerCity.selectedItemPosition)
-        showTemper()
+        model.registerObserverTemperature().observe(this, Observer { t ->
+            if (t == -255.toFloat())
+                textViewTemper.setText("")
+            else
+                textViewTemper.setText(Strategy.calculate(strategySpinner.selectedItemPosition, t).toString())
+        })
     }
 
 
