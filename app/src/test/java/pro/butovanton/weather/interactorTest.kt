@@ -1,6 +1,7 @@
 package pro.butovanton.weather
 
 import io.reactivex.Flowable
+import io.reactivex.Single
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -21,7 +22,7 @@ class interactorTest {
        var temperatures = mutableListOf(10,10,20,20,20,30,30,30,25,25,25,10)
        var city = City("test", 0)
        city.temperature = temperatures.toMutableList()
-       var citys = Flowable.fromArray(mutableListOf(city))
+       var citys = Single.just(mutableListOf(city))
        `when`(boundaresMock.getAll()).thenReturn(citys)
 
 
@@ -34,6 +35,11 @@ class interactorTest {
            assertTrue(TemperatureSeson.getTemperatureForSeson(city,1) == 20.toFloat())
            assertTrue(TemperatureSeson.getTemperatureForSeson(city,2) == 30.toFloat())
            assertTrue(TemperatureSeson.getTemperatureForSeson(city,3) == 25.toFloat())
+
+       interactor.getTemper(0)
+           .subscribe { temperatures ->
+               assertTrue( temperatures.size == 12)
+           }
        }
     }
 

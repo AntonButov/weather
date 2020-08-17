@@ -32,7 +32,7 @@ object InjectorUtils {
     }
 
     fun provideInteractor(context: Context): Interactor {
-       return Interactor(provideRepo(context))
+       return Interactor.get(provideRepo(context))
     }
 
 }

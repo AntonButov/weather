@@ -8,14 +8,9 @@ import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import org.reactivestreams.Subscriber
 import pro.butovanton.weather.Activitys.Strategy.Strategy
-import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.MainViewModel
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,14 +41,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
-
-         model.getCitysNames().observe(this, Observer { cityNames ->
-             spinnerArrayAdapter =
-                 ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityNames)
-             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-             spinnerCity.adapter = spinnerArrayAdapter
-             spinnerCity.setSelection(model.city!!)
-         })
 
         spinnerCity = findViewById(R.id.spinnerCity)
         spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -129,6 +116,23 @@ class MainActivity : AppCompatActivity() {
             else
                 textViewTemper.setText(Strategy.calculate(strategySpinner.selectedItemPosition, t).toString())
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.getCitysNames().observe(this, Observer { cityNames ->
+            spinnerArrayAdapter =
+                ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityNames)
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinnerCity.adapter = spinnerArrayAdapter
+            spinnerCity.setSelection(model.city!!)
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        model.registerObserverTemperature().removeObservers(this)
+        model.registerObserverCityType().removeObservers(this)
     }
 
 

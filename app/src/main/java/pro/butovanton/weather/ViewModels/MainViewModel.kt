@@ -10,12 +10,15 @@ import androidx.lifecycle.Observer
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.InjectorUtils
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val subscription = CompositeDisposable()
 
     var city : Int = 0
     var seson : Int = 0
@@ -35,13 +38,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
 
     fun getDataFromBD() {
-        interactor.getAll()
+        subscription.add(interactor.getAll()
             .map {citys ->
                 mapNames(citys)
             }
             .subscribe { cityNames ->
                 citysNamesM.postValue(cityNames)
-            notifyType()}
+            notifyType()
+            notifyTemperature()})
     }
 
     fun mapNames(citys : List<City>) : List<String> {
@@ -84,7 +88,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun registerObserverTemperature() : LiveData<Float> {
-
         return temper
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        interactor.getAll()
+            .subscribe()
+            .dispose()
+        if (!subscription.isDisposed)
+            subscription.dispose()
     }
 }

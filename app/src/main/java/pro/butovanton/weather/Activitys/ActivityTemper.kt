@@ -1,14 +1,16 @@
 package pro.butovanton.weather.Activitys
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.TemperViewModel
+
 
 class ActivityTemper : AppCompatActivity(),
     saveTemperature {
@@ -45,5 +47,20 @@ class ActivityTemper : AppCompatActivity(),
 
     override fun temperatureSave(temperatures: MutableList<Int?>) {
         model.setCityTemperatures(city, temperatures = temperatures)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.getCityTemperutures(city)
+    }
+
+    override fun onPause() {
+        super.onPause()
+      //  model
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 }

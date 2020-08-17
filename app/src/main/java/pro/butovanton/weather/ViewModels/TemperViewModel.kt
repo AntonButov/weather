@@ -16,15 +16,9 @@ class TemperViewModel(application: Application) : AndroidViewModel(application) 
    val temperatures = MutableLiveData<MutableList<Int?>>()
 
    fun getCityTemperutures(city : Int) {
-
-   interactor.getAll()
-      .map { citys ->
-         citys[city].temperature
-         }
-      .subscribe { temper ->
-         temperatures.postValue(temper)
-      }
-
+      interactor.getTemper(city)
+         .subscribe {   temper ->
+      temperatures.postValue(temper)}
    }
 
    fun registerTemperatureObserver(city : Int) : MutableLiveData<MutableList<Int?>> {
@@ -33,11 +27,6 @@ class TemperViewModel(application: Application) : AndroidViewModel(application) 
    }
 
    fun setCityTemperatures(city : Int, temperatures : MutableList<Int?>) {
-      /*
-      var cityM = interactor.getAll().get(city)
-         cityM.temperature = temperatures
-      interactor.update(cityM)
-
-       */
+      interactor.setTemper(city, temperatures)
    }
 }

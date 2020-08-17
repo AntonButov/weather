@@ -38,11 +38,14 @@ class bdTests {
 
     @Test
     fun dbTestNew() {
-        dao.insertSity(City("test", 0))
+        var city = City("test", 0)
+        city.temperature = mutableListOf(10)
+        dao.insertSity(city)
         var result = mutableListOf<City>()
         dao.getSitys()
             .subscribe { c -> result = c }
         assertTrue(result[0].name.equals("test"))
+        assertTrue(result[0].temperature[0] == 10)
     }
 
 }

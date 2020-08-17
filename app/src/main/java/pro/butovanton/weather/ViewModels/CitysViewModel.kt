@@ -3,6 +3,8 @@ package pro.butovanton.weather.ViewModels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import io.reactivex.Flowable
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.InjectorUtils
@@ -16,7 +18,7 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
       interactor.addNew(name, type)
    }
 
-   fun getAll() : Flowable<MutableList<CityModel>> {
+   fun getAll() : Single<MutableList<CityModel>> {
       return interactor.getAll()
          .map { citys -> mapModels(citys) }
    }
@@ -39,5 +41,6 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
          cityCash[i].type = cityModels[i].type
       }
       interactor.saveAll(cityCash)
+   //  interactor.getAll()
    }
 }
