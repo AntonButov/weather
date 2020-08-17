@@ -63,7 +63,7 @@ class ActivityCitys : AppCompatActivity(),
 
     override fun onBackPressed() {
         super.onBackPressed()
-     //   model.setAll(citys)
+        model.setAll(citys)
     }
 
     override fun temper(city: Int) {
@@ -71,13 +71,6 @@ class ActivityCitys : AppCompatActivity(),
         intent.putExtra("city", city)
         startActivityForResult(intent, ACTIVITY_TEMPERATURE)
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-            if (requestCode == ACTIVITY_TEMPERATURE){
-                model.getAll()
-            }
-        }
 
 }
 

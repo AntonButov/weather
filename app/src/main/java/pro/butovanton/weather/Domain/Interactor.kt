@@ -4,6 +4,7 @@ import io.reactivex.Flowable
 import io.reactivex.Single
 import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
 
 class Interactor(private val boundares: Boundares) : Cases {
@@ -34,11 +35,36 @@ class Interactor(private val boundares: Boundares) : Cases {
         saveAll(cityCash)
     }
 
-
     fun mapTemper(citys : MutableList<City>, city : Int) : MutableList<Int?> {
         cityCash = citys
         return citys[city].temperature
     }
+
+    override fun getCitys(): Single<MutableList<CityModel>> {
+            return getAll()
+                .map { citys -> mapModels(citys) }
+        }
+
+
+    fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
+        cityCash = citys
+        var cityModels = mutableListOf<CityModel>()
+        for (city : City  in citys)
+            cityModels.add(mapModel(city))
+        return cityModels
+    }
+
+    fun mapModel(city : City) : CityModel {
+        return CityModel(city.name, city.type)
+    }
+
+    fun setCitys(cityModels: List<CityModel>) {
+        for (i in 0 .. cityCash.size -1) {
+            cityCash[i].name = cityModels[i].name
+            cityCash[i].type = cityModels[i].type
+        }
+        saveAll(cityCash)
+       }
 
     override fun update(city: City) {
         boundares.update(city)

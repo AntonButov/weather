@@ -40,6 +40,11 @@ class interactorTest {
            .subscribe { temperatures ->
                assertTrue( temperatures.size == 12)
            }
+
+       interactor.getCitys()
+           .subscribe { citys ->
+               assertTrue(citys[0].name.equals("test") && citys[0].type == 0)
+           }
        }
     }
 

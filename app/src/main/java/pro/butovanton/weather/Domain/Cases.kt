@@ -3,6 +3,7 @@ package pro.butovanton.weather.Domain
 import io.reactivex.Flowable
 import io.reactivex.Single
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.CityModel
 
 interface Cases {
     fun addNew(name : String, type : Int)
@@ -11,4 +12,5 @@ interface Cases {
     fun update(city : City)
     fun getTemper( city : Int): Single<MutableList<Int?>>
     fun setTemper(city : Int, temper : MutableList<Int?>)
+    fun getCitys() : Single<MutableList<CityModel>>
 }
