@@ -8,11 +8,12 @@ import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
 import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.MainViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ObserverTemperature {
 
     lateinit var buttonCytes : Button
     lateinit var model: MainViewModel
@@ -116,6 +117,8 @@ class MainActivity : AppCompatActivity() {
             else
                 textViewTemper.setText(Strategy.calculate(strategySpinner.selectedItemPosition, t).toString())
         })
+
+        model.registerObserver(this)
     }
 
     override fun onResume() {
@@ -133,8 +136,12 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         model.registerObserverTemperature().removeObservers(this)
         model.registerObserverCityType().removeObservers(this)
+        model.unregisterObserver()
     }
 
+    override fun observerNotify(message: String) {
+        TODO("Not yet implemented")
+    }
 
 }
 

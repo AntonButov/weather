@@ -2,6 +2,7 @@ package pro.butovanton.weather.Domain
 
 import io.reactivex.Flowable
 import io.reactivex.Single
+import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
 import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
@@ -10,6 +11,7 @@ import pro.butovanton.weather.Factory.Factory
 class Interactor(private val boundares: Boundares) : Cases {
 
     private lateinit var cityCash : List<City>
+    private var observer : ObserverTemperature? = null
 
     override fun addNew(name: String, type: Int) {
        boundares.insert(Factory().Creat(type, name))
@@ -33,6 +35,7 @@ class Interactor(private val boundares: Boundares) : Cases {
     override fun setTemper(city: Int, temper: MutableList<Int?>) {
         cityCash[city].temperature = temper
         saveAll(cityCash)
+        notifyObserver()
     }
 
     fun mapTemper(citys : MutableList<City>, city : Int) : MutableList<Int?> {
@@ -68,6 +71,19 @@ class Interactor(private val boundares: Boundares) : Cases {
 
     override fun update(city: City) {
         boundares.update(city)
+    }
+
+    fun registerObserver( observer : ObserverTemperature) {
+        this.observer = observer
+    }
+
+    fun unregisterObserver() {
+        this.observer = null
+    }
+
+    fun notifyObserver() {
+        if (observer != null)
+          observer?.observerNotify(" Температура изменилась. ")
     }
 
     companion object {

@@ -12,6 +12,7 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.InjectorUtils
@@ -85,10 +86,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return type
     }
 
-
-
     fun registerObserverTemperature() : LiveData<Float> {
         return temper
+    }
+
+    fun registerObserver(observer : ObserverTemperature) {
+        interactor.registerObserver(observer)
+    }
+
+    fun unregisterObserver() {
+        interactor.unregisterObserver()
     }
 
     override fun onCleared() {
