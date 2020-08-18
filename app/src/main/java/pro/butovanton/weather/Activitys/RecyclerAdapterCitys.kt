@@ -8,6 +8,7 @@ import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.item.view.*
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.R
@@ -57,7 +58,6 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
         }
         holder.type.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(
@@ -74,6 +74,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
             citys.removeAt(positionAdapter)
             notifyDataSetChanged()
             save()
+            activitySitys.delete(positionAdapter)
         }
         holder.buttonTemper.setOnClickListener {
             activitySitys.temper(positionAdapter)
@@ -115,10 +116,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
                     type.adapter = adapter
                 }
         }
-
-
     }
-
 }
 
 

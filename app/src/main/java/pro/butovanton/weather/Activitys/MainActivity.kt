@@ -142,6 +142,5 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
     override fun observerNotify(message: String) {
         this.message = message
     }
-
 }
 

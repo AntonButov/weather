@@ -24,4 +24,9 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
    fun setAll(cityModels: List<CityModel>) {
       interactor.setCitys(cityModels)
    }
+
+   fun delete(city : Int) {
+
+      interactor.delete(city)
+   }
 }

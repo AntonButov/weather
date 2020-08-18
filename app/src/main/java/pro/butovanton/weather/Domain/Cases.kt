@@ -10,6 +10,7 @@ interface Cases {
     fun getAll() : Single<MutableList<City>>
     fun saveAll(citys : List<City>)
     fun update(city : City)
+    fun delete(city : Int)
     fun getTemper( city : Int): Single<MutableList<Int?>>
     fun setTemper(city : Int, temper : MutableList<Int?>)
     fun getCitys() : Single<MutableList<CityModel>>

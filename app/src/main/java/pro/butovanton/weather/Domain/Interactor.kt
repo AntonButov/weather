@@ -1,16 +1,14 @@
 package pro.butovanton.weather.Domain
 
-import io.reactivex.Flowable
 import io.reactivex.Single
 import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
-import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
 
 class Interactor(private val boundares: Boundares) : Cases {
 
-    private lateinit var cityCash : List<City>
+    private lateinit var cityCash : MutableList<City>
     private var observer : ObserverTemperature? = null
 
     override fun addNew(name: String, type: Int) {
@@ -71,6 +69,11 @@ class Interactor(private val boundares: Boundares) : Cases {
 
     override fun update(city: City) {
         boundares.update(city)
+    }
+
+    override fun delete(city: Int) {
+        cityCash.removeAt(city)
+        saveAll(cityCash)
     }
 
     fun registerObserver( observer : ObserverTemperature) {

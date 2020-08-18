@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_temper.*
 import pro.butovanton.weather.R
 import pro.butovanton.weather.ViewModels.TemperViewModel
 
@@ -15,7 +16,6 @@ import pro.butovanton.weather.ViewModels.TemperViewModel
 class ActivityTemper : AppCompatActivity(),
     saveTemperature {
 
-    lateinit var recyclerViewTemper: RecyclerView
     lateinit var adapterTemper: RecyclerAdapterTemper
     lateinit var lm : LinearLayoutManager
     var temperatures = mutableListOf<Int?>()
@@ -27,7 +27,6 @@ class ActivityTemper : AppCompatActivity(),
 
         city = intent.getIntExtra("city", 0)
 
-        recyclerViewTemper = findViewById(R.id.reciclerTemper)
         model = ViewModelProvider(this).get(TemperViewModel::class.java)
 
         model.registerTemperatureObserver(city).observe(this, Observer {temperatures ->
@@ -39,9 +38,9 @@ class ActivityTemper : AppCompatActivity(),
                         temperatures
                     )
 
-                lm = LinearLayoutManager(this)
-                recyclerViewTemper.layoutManager = lm
-                recyclerViewTemper.adapter = adapterTemper
+            lm = LinearLayoutManager(this)
+            reciclerTemper.layoutManager = lm
+            reciclerTemper.adapter = adapterTemper
     })
     }
 
@@ -52,11 +51,6 @@ class ActivityTemper : AppCompatActivity(),
     override fun onResume() {
         super.onResume()
         model.getCityTemperutures(city)
-    }
-
-    override fun onPause() {
-        super.onPause()
-      //  model
     }
 
     override fun onBackPressed() {
