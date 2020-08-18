@@ -100,9 +100,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     override fun onCleared() {
         super.onCleared()
-        interactor.getAll()
-            .subscribe()
-            .dispose()
         if (!subscription.isDisposed)
             subscription.dispose()
     }

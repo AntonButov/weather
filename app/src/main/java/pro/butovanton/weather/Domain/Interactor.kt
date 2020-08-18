@@ -82,8 +82,8 @@ class Interactor(private val boundares: Boundares) : Cases {
     }
 
     fun notifyObserver() {
-        if (observer != null)
-          observer?.observerNotify(" Температура изменилась. ")
+        observer.let {
+          it!!.observerNotify(" Температура изменилась. ")}
     }
 
     companion object {

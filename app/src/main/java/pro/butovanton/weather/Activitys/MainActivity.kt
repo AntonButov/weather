@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
 import pro.butovanton.weather.Activitys.Strategy.Strategy
 import pro.butovanton.weather.R
@@ -15,16 +17,10 @@ import pro.butovanton.weather.ViewModels.MainViewModel
 
 class MainActivity : AppCompatActivity(), ObserverTemperature {
 
-    lateinit var buttonCytes : Button
     lateinit var model: MainViewModel
-    lateinit var spinnerCity : Spinner
-    lateinit var sesonsSpinner : Spinner
-    lateinit var strategySpinner : Spinner
-    var spinnerArray = listOf<String>("Тест")
-    lateinit var textViewTypeCity: TextView
-    lateinit var textViewTemper: TextView
     lateinit var types : TypedArray
     lateinit var spinnerArrayAdapter : ArrayAdapter<String>
+    var message = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,34 +28,30 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
 
         types = resources.obtainTypedArray(R.array.size_city)
 
-        textViewTemper = findViewById(R.id.textViewTemper)
-        textViewTypeCity = findViewById(R.id.textViewTypeCity)
-
-        buttonCytes = findViewById(R.id.buttonSytes)
-        buttonCytes.setOnClickListener() {
+        buttonSytes.setOnClickListener() {
             view -> val intent = Intent(this, ActivityCitys:: class.java)
                         startActivity(intent)
         }
 
         model = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        spinnerCity = findViewById(R.id.spinnerCity)
         spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
+
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 city: Int,
                 id: Long
             ) {
-            model.setCityAndNotify(city)
+                model.setCityAndNotify(city)
             }
 
         }
-        sesonsSpinner = findViewById(R.id.spinnerSeson)
-        sesonsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+        spinnerSeson.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
@@ -73,7 +65,6 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
             model.setSesonAndNotify(seson)
             }
         }
-        strategySpinner = findViewById(R.id.spinnerStrategy)
         ArrayAdapter.createFromResource(
             this,
             R.array.strategy,
@@ -81,10 +72,10 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
         )
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                strategySpinner.adapter = adapter
+                spinnerStrategy.adapter = adapter
             }
 
-        strategySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinnerStrategy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -104,7 +95,7 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
         )
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                sesonsSpinner.adapter = adapter
+                spinnerSeson.adapter = adapter
             }
 
         model.registerObserverCityType().observe(this, Observer { type ->
@@ -115,7 +106,7 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
             if (t == -255.toFloat())
                 textViewTemper.setText("")
             else
-                textViewTemper.setText(Strategy.calculate(strategySpinner.selectedItemPosition, t).toString())
+                textViewTemper.setText(Strategy.calculate(spinnerStrategy.selectedItemPosition, t).toString())
         })
 
         model.registerObserver(this)
@@ -130,6 +121,15 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
             spinnerCity.adapter = spinnerArrayAdapter
             spinnerCity.setSelection(model.city!!)
         })
+
+     if (!message.equals("")) {
+         val snackbar = Snackbar.make(
+             mainConstraint, message,
+             Snackbar.LENGTH_LONG
+         )
+         snackbar.show()
+         message = ""
+     }
     }
 
     override fun onDestroy() {
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
     }
 
     override fun observerNotify(message: String) {
-        TODO("Not yet implemented")
+        this.message = message
     }
 
 }
