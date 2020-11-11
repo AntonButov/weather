@@ -38,7 +38,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return citysNamesM
         }
 
-    fun getDataFromBD() {
+    private fun getDataFromBD() {
         subscription.add(interactor.getAll()
             .map {citys ->
                 mapNames(citys)
@@ -49,11 +49,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             notifyTemperature()})
     }
 
-    fun mapNames(citys : List<City>) : List<String> {
+    private fun mapNames(citys : List<City>) : List<String> {
         citysCash = citys
         cityNames.clear()
-        for (city in citys)
+        citys.forEach { city ->
             cityNames.add(city.name)
+        }
     return cityNames
     }
 

@@ -11,7 +11,7 @@ import pro.butovanton.weather.InjectorUtils
 
 class CitysViewModel(application: Application) : AndroidViewModel(application) {
 
-   val interactor =  InjectorUtils.provideInteractor(application)
+   private val interactor =  InjectorUtils.provideInteractor(application)
 
    fun addNew(name : String, type : Int) {
       interactor.addNew(name, type)
@@ -26,7 +26,6 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
    }
 
    fun delete(city : Int) {
-
       interactor.delete(city)
    }
 }

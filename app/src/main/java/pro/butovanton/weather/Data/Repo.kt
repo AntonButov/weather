@@ -5,31 +5,20 @@ import io.reactivex.Single
 import pro.butovanton.weather.Domain.Boundares
 import pro.butovanton.weather.Factory.City
 
-class Repo(val daoC : daoCity) : Boundares {
-
-    companion object {
-        private var INSTANCE: Repo? = null
-
-          fun get(daoC : daoCity) : Repo {
-                if (INSTANCE == null)
-                    INSTANCE = Repo(daoC)
-
-                return INSTANCE!!
-            }
-    }
+class Repo(val daoC: daoCity) : Boundares {
 
     override fun getAll(): Single<MutableList<City>> {
-        return daoC.getSitys()
+        return daoC.getCitys()
     }
 
     override fun saveAll(citys: List<City>) {
         daoC.deleteAll()
-        for (city : City in citys)
-            daoC.insertSity(city)
+        for (city: City in citys)
+            daoC.insertCity(city)
     }
 
     override fun insert(city: City) {
-        daoC.insertSity(city)
+        daoC.insertCity(city)
     }
 
     override fun update(city: City) {

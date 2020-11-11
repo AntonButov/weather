@@ -50,12 +50,13 @@ class Interactor(private val boundares: Boundares) : Cases {
     fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
         cityCash = citys
         var cityModels = mutableListOf<CityModel>()
-        for (city : City  in citys)
-            cityModels.add(mapModel(city))
+        citys.forEach {
+            city -> cityModels.add(mapModel(city))
+        }
         return cityModels
     }
 
-    fun mapModel(city : City) : CityModel {
+    private fun mapModel(city : City) : CityModel {
         return CityModel(city.name, city.type)
     }
 

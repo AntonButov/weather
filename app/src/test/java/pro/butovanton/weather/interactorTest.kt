@@ -19,14 +19,14 @@ class interactorTest {
     @Test
     fun testTemper() {
        val boundaresMock = mock(Boundares::class.java)
-       var temperatures = mutableListOf(10,10,20,20,20,30,30,30,25,25,25,10)
-       var city = City("test", 0)
+       val temperatures = mutableListOf(10,10,20,20,20,30,30,30,25,25,25,10)
+       val city = City("test", 0)
        city.temperature = temperatures.toMutableList()
-       var citys = Single.just(mutableListOf(city))
+       val citys = Single.just(mutableListOf(city))
        `when`(boundaresMock.getAll()).thenReturn(citys)
 
 
-       var interactor = Interactor(boundaresMock)
+       val interactor = Interactor(boundaresMock)
 
        interactor.getAll().subscribe { citys ->
            assertTrue(citys.size > 0)

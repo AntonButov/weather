@@ -28,7 +28,7 @@ object InjectorUtils {
     }
 
     fun provideRepo(context: Context): Repo {
-        return Repo.get(provideDb(context).getDao())
+        return Repo(provideDb(context).getDao())
     }
 
     fun provideInteractor(context: Context): Interactor {
