@@ -67,7 +67,7 @@ class ActivityCitys : AppCompatActivity(),
         model.setAll(citys)
     }
 
-    override fun temper(city: Int) {
+    override fun temper(city: String) {
         intent = Intent(this, ActivityTemper::class.java)
         intent.putExtra("city", city)
         startActivityForResult(intent, ACTIVITY_TEMPERATURE)

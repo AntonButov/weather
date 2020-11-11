@@ -77,7 +77,7 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
             activitySitys.delete(positionAdapter)
         }
         holder.buttonTemper.setOnClickListener {
-            activitySitys.temper(positionAdapter)
+            activitySitys.temper(citys[positionAdapter].name)
         }
     }
 

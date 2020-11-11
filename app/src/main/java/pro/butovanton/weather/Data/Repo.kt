@@ -11,6 +11,14 @@ class Repo(val daoC: daoCity) : Boundares {
         return daoC.getCitys()
     }
 
+    override fun getCityByName(name: String): Single<City> {
+        return daoC.getCityByName(name)
+    }
+
+    override fun getTemperByName(name: String): Single<MutableList<Int?>> {
+        return daoC.getTemperByName(name)
+    }
+
     override fun saveAll(citys: List<City>) {
         daoC.deleteAll()
         for (city: City in citys)

@@ -3,6 +3,7 @@ package pro.butovanton.weather.Activitys
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,41 +17,28 @@ import pro.butovanton.weather.ViewModels.TemperViewModel
 class ActivityTemper : AppCompatActivity(),
     saveTemperature {
 
+    val model : TemperViewModel by viewModels()
+
     lateinit var adapterTemper: RecyclerAdapterTemper
     lateinit var lm : LinearLayoutManager
-    var temperatures = mutableListOf<Int?>()
-    lateinit var model : TemperViewModel
-    var city : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_temper)
 
-        city = intent.getIntExtra("city", 0)
+        val city = intent.getStringExtra("city")
+        city?.let {
+            model.registerTemperatureObserver(city).observe(this, Observer { temperatures ->
+                adapterTemper = RecyclerAdapterTemper(this, temperatures)
 
-        model = ViewModelProvider(this).get(TemperViewModel::class.java)
-
-        model.registerTemperatureObserver(city).observe(this, Observer {temperatures ->
-                this.temperatures = temperatures
-                adapterTemper =
-                    RecyclerAdapterTemper(
-                        this,
-                        city,
-                        temperatures
-                    )
-
-            lm = LinearLayoutManager(this)
-            reciclerTemper.layoutManager = lm
-            reciclerTemper.adapter = adapterTemper
-    })
+                lm = LinearLayoutManager(this)
+                reciclerTemper.layoutManager = lm
+                reciclerTemper.adapter = adapterTemper
+            })
+        }
     }
 
     override fun temperatureSave(temperatures: MutableList<Int?>) {
-        model.setCityTemperatures(city, temperatures = temperatures)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        model.getCityTemperutures(city)
+      //  model.setCityTemperatures(city, temperatures = temperatures)
     }
 
     override fun onBackPressed() {
@@ -58,3 +46,4 @@ class ActivityTemper : AppCompatActivity(),
         finish()
     }
 }
+

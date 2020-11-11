@@ -23,12 +23,10 @@ class Interactor(private val boundares: Boundares) : Cases {
         boundares.saveAll(citys)
     }
 
-    override fun getTemper(city: Int) : Single<MutableList<Int?>> {
-        return getAll()
-            .map { citys ->
-                mapTemper(citys, city)
-            }
+    override fun getTemper(name: String): Single<MutableList<Int?>> {
+        return boundares.getTemperByName(name)
     }
+
 
     override fun setTemper(city: Int, temper: MutableList<Int?>) {
         cityCash[city].temperature = temper

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.R
 
-class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val temperatures: MutableList<Int?>) :
+class RecyclerAdapterTemper(val context : ActivityTemper, val temperatures: MutableList<Int?>) :
     RecyclerView.Adapter<RecyclerAdapterTemper.ViewHolderTemper>() {
     val mInflater: LayoutInflater = LayoutInflater.from(context);
     val months: TypedArray = context.resources.obtainTypedArray(R.array.months)
@@ -77,11 +77,8 @@ class RecyclerAdapterTemper(val context : ActivityTemper, val city : Int, val te
         init {
             editTextTemper = view.findViewById(R.id.editTextItemTemper)
             textViewMonth = view.findViewById(R.id.textViewMonth)
-
         }
-
     }
-
 }
 
 

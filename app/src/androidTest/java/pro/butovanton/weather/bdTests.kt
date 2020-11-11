@@ -27,7 +27,7 @@ class bdTests {
 
     fun initTestCity(): City {
         val city = City("test", 0)
-            city.temperature = mutableListOf(10)
+        city.temperature[0] = 10
         return city
     }
 
