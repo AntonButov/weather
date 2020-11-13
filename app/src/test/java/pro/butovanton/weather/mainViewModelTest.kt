@@ -4,8 +4,6 @@ import org.junit.Test
 
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
-import pro.butovanton.weather.Domain.Interactor
-import pro.butovanton.weather.Factory.City
 
 @RunWith(MockitoJUnitRunner::class)
 class mainViewModelTest {

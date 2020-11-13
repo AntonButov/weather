@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import pro.butovanton.weather.Domain.Boundares
-import pro.butovanton.weather.Domain.Interactor
 import pro.butovanton.weather.Factory.City
 
 @Database(entities = arrayOf( City::class), version = 1)

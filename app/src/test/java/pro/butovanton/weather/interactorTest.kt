@@ -1,6 +1,5 @@
 package pro.butovanton.weather
 
-import io.reactivex.Flowable
 import io.reactivex.Single
 import org.junit.Test
 
@@ -9,8 +8,8 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.*
-import pro.butovanton.weather.Domain.Boundares
-import pro.butovanton.weather.Domain.Interactor
+import pro.butovanton.weather.Domain.interactor.Boundares
+import pro.butovanton.weather.Domain.interactor.Interactor
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
 
@@ -54,5 +53,4 @@ class interactorTest {
            }
        }
     }
-
 }

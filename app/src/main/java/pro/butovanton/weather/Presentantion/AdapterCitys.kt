@@ -1,5 +1,6 @@
-package pro.butovanton.weather.Activitys
+package pro.butovanton.weather.Presentantion
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -8,52 +9,32 @@ import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item.view.*
-import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.DialogRx
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.R
 
 
-class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
-    RecyclerView.Adapter<RecyclerAdapterCitys.ViewHolderCitys>() {
+class AdapterCitys(val context: Context, val returnData: notifyCitys) :
+    RecyclerView.Adapter<AdapterCitys.ViewHolderCitys>() {
+
     var citys: MutableList<CityModel> = mutableListOf()
-    val mInflater: LayoutInflater = LayoutInflater.from(activitySitys);
+    val mInflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCitys {
         val view = mInflater.inflate(R.layout.item, parent, false)
-        return ViewHolderCitys(
-            view,
-            activitySitys
-        )
+        return ViewHolderCitys(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolderCitys, positionAdapter: Int) {
         holder.run {
-            editTextViewItemName.setText(citys[positionAdapter].name)
-            editTextViewItemName.setOnTouchListener(OnTouchListener { v, event ->
-                v.isFocusable = true
-                v.isFocusableInTouchMode = true
-                false
-            })
-            editTextViewItemName.addTextChangedListener(object : TextWatcher{
-                override fun afterTextChanged(s: Editable?) {
-                    citys[positionAdapter].name = s.toString()
-                    save()
-                }
+            nameTextView.setText(citys[positionAdapter].name)
+            nameTextView.setOnClickListener {
+               DialogRx(context).requestName()
+                   .subscribe { newName ->
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+                   }
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                }
-
-            })
             type.setSelection(citys[positionAdapter].type)
         }
         holder.type.onItemSelectedListener  = object : AdapterView.OnItemSelectedListener {
@@ -67,17 +48,16 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
                 id: Long
             ) {
                 citys[positionAdapter].type = position
-                save()
+                    //     returnData.update(citys[positionAdapter], positionAdapter)
             }
         }
         holder.buttonDel.setOnClickListener {
+            returnData.delete(city = citys[positionAdapter].name)
             citys.removeAt(positionAdapter)
             notifyDataSetChanged()
-            save()
-            activitySitys.delete(positionAdapter)
         }
         holder.buttonTemper.setOnClickListener {
-            activitySitys.temper(citys[positionAdapter].name)
+            returnData.callTemperActivity(citys[positionAdapter].name)
         }
     }
 
@@ -85,30 +65,24 @@ class RecyclerAdapterCitys(val activitySitys: ActivityCitys) :
         return if (citys == null) 0 else citys.size
     }
 
-    fun adnotify(citys: MutableList<CityModel>) {
+    fun setData(citys: MutableList<CityModel>) {
         this.citys = citys
         notifyDataSetChanged()
     }
 
-    fun save(){
-        activitySitys.citys(citys)
-    }
-
-    class ViewHolderCitys(view: View, activitySitys: ActivityCitys) :
+    class ViewHolderCitys(view: View) :
         RecyclerView.ViewHolder(view) {
-        val editTextViewItemName: EditText
+        val nameTextView: TextView
         val type: Spinner
         val buttonDel : Button
         val buttonTemper : Button
 
         init {
-            editTextViewItemName = view.findViewById(R.id.editTextName)
+            nameTextView = view.findViewById(R.id.name_TV)
             type = view.findViewById(R.id.spinerItemType)
             buttonDel = view.findViewById(R.id.buttonDel)
             buttonTemper = view.findViewById(R.id.buttonTemper)
-            ArrayAdapter.createFromResource(
-                activitySitys,
-                R.array.size_city,
+            ArrayAdapter.createFromResource( view.context, R.array.size_city,
                 android.R.layout.simple_spinner_item
             )
                 .also { adapter ->

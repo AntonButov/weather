@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Activitys
+package pro.butovanton.weather.Presentantion
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,11 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.R
 
-class RecyclerAdapterTemper(val context : ActivityTemper, val temperatures: MutableList<Int?>) :
-    RecyclerView.Adapter<RecyclerAdapterTemper.ViewHolderTemper>() {
+class AdapterTemper(val context : ActivityTemper, val temperatures: MutableList<Int?>) :
+    RecyclerView.Adapter<AdapterTemper.ViewHolderTemper>() {
     val mInflater: LayoutInflater = LayoutInflater.from(context);
     val months: TypedArray = context.resources.obtainTypedArray(R.array.months)
 

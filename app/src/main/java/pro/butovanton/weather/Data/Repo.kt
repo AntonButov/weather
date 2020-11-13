@@ -1,8 +1,7 @@
 package pro.butovanton.weather.Data
 
-import io.reactivex.Flowable
 import io.reactivex.Single
-import pro.butovanton.weather.Domain.Boundares
+import pro.butovanton.weather.Domain.interactor.Boundares
 import pro.butovanton.weather.Factory.City
 
 class Repo(val daoC: daoCity) : Boundares {
@@ -16,7 +15,7 @@ class Repo(val daoC: daoCity) : Boundares {
     }
 
     override fun getTemperByName(name: String): Single<MutableList<Int?>> {
-        return daoC.getTemperByName(name)
+            return getCityByName(name).map { city -> city.temperature }
     }
 
     override fun saveAll(citys: List<City>) {
@@ -25,11 +24,24 @@ class Repo(val daoC: daoCity) : Boundares {
             daoC.insertCity(city)
     }
 
+    override fun saveTemperByName(name: String, temper: List<Int?>) {
+        daoC.getCityByName(name)
+            .subscribe{ city ->
+                val cityNew = city
+                cityNew.temperature = temper as MutableList<Int?>
+                daoC.update(cityNew)
+            }
+    }
+
     override fun insert(city: City) {
         daoC.insertCity(city)
     }
 
     override fun update(city: City) {
         daoC.update(city)
+    }
+
+    override fun delete(name: String) {
+        daoC.delete(name)
     }
 }

@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Activitys.Observer
+package pro.butovanton.weather.Observer
 
 interface ObserverTemperature {
     fun observerNotify(message : String)

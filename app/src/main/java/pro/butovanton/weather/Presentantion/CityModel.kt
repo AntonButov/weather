@@ -14,16 +14,7 @@ import pro.butovanton.weather.Data.Converter
 import java.io.Serializable
 import java.lang.reflect.Type
 
-open class CityModel(name : String, type : Int) {
-
-    var name: String
-    var type: Int
-
-    init {
-        this.name = name
-        this.type = type
-    }
-}
+data class CityModel(var name : String, var type : Int)
 
 
 

@@ -2,7 +2,6 @@ package pro.butovanton.weather
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import io.reactivex.Flowable
 import org.junit.After
 
 import org.junit.Test
@@ -11,9 +10,6 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.junit.Before
 import pro.butovanton.weather.Factory.City
-import pro.butovanton.weather.Activitys.Strategy.Strategy
-import pro.butovanton.weather.Activitys.notifyCitys
-import pro.butovanton.weather.Domain.TemperatureSeson
 
 @RunWith(AndroidJUnit4::class)
 class bdTests {
@@ -70,9 +66,9 @@ class bdTests {
     fun dbTestGetTemperByName() {
         var result = mutableListOf<Int?>()
         dao.insertCity(city)
-        dao.getTemperByName(city.name)
+        dao.getCityByName(city.name)
             .subscribe{
-                    temperByName -> result = temperByName }
+                    city -> result = city.temperature }
         assertTrue(result[0] == 10)
     }
 }

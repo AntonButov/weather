@@ -3,8 +3,7 @@ package pro.butovanton.weather
 import org.junit.Test
 
 import org.junit.Assert.*
-import pro.butovanton.weather.Activitys.Strategy.Strategy
-import pro.butovanton.weather.Data.Repo
+import pro.butovanton.weather.Presentantion.Strategy.Strategy
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.*
 

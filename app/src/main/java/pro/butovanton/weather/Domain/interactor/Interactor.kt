@@ -1,7 +1,7 @@
-package pro.butovanton.weather.Domain
+package pro.butovanton.weather.Domain.interactor
 
 import io.reactivex.Single
-import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
+import pro.butovanton.weather.Observer.ObserverTemperature
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
@@ -23,38 +23,20 @@ class Interactor(private val boundares: Boundares) : Cases {
         boundares.saveAll(citys)
     }
 
-    override fun getTemper(name: String): Single<MutableList<Int?>> {
-        return boundares.getTemperByName(name)
-    }
-
-
-    override fun setTemper(city: Int, temper: MutableList<Int?>) {
-        cityCash[city].temperature = temper
-        saveAll(cityCash)
-        notifyObserver()
-    }
-
-    fun mapTemper(citys : MutableList<City>, city : Int) : MutableList<Int?> {
-        cityCash = citys
-        return citys[city].temperature
-    }
-
     override fun getCitys(): Single<MutableList<CityModel>> {
             return getAll()
                 .map { citys -> mapModels(citys) }
         }
-
-
     fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
         cityCash = citys
         var cityModels = mutableListOf<CityModel>()
         citys.forEach {
-            city -> cityModels.add(mapModel(city))
+            city -> cityModels.add(transformToCityModel(city))
         }
         return cityModels
     }
 
-    private fun mapModel(city : City) : CityModel {
+    private fun transformToCityModel(city : City) : CityModel {
         return CityModel(city.name, city.type)
     }
 
@@ -75,14 +57,20 @@ class Interactor(private val boundares: Boundares) : Cases {
         saveAll(cityCash)
     }
 
+    override fun getTemper(name: String): Single<MutableList<Int?>> {
+        return boundares.getTemperByName(name)
+    }
+    override fun setTemper(name: String, temper: MutableList<Int?>) {
+        boundares.saveTemperByName(name, temper)
+        notifyObserver()
+    }
+
     fun registerObserver( observer : ObserverTemperature) {
         this.observer = observer
     }
-
     fun unregisterObserver() {
         this.observer = null
     }
-
     fun notifyObserver() {
         observer.let {
           it!!.observerNotify(" Температура изменилась. ")}
@@ -91,7 +79,7 @@ class Interactor(private val boundares: Boundares) : Cases {
     companion object {
         private var INSTANCE: Interactor? = null
 
-        fun get(boundares: Boundares ) : Interactor {
+        fun get(boundares: Boundares) : Interactor {
             if (INSTANCE == null)
                 INSTANCE = Interactor(boundares)
 

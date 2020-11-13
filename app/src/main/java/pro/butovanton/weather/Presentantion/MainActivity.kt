@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Activitys
+package pro.butovanton.weather.Presentantion
 
 import android.content.Intent
 import android.content.res.TypedArray
@@ -10,10 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import pro.butovanton.weather.Activitys.Observer.ObserverTemperature
-import pro.butovanton.weather.Activitys.Strategy.Strategy
+import pro.butovanton.weather.Observer.ObserverTemperature
+import pro.butovanton.weather.Presentantion.Strategy.Strategy
 import pro.butovanton.weather.R
-import pro.butovanton.weather.ViewModels.MainViewModel
+import pro.butovanton.weather.Presentantion.ViewModels.MainViewModel
 
 class MainActivity : AppCompatActivity(), ObserverTemperature {
 

@@ -1,27 +1,14 @@
 package pro.butovanton.weather
 
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import org.hamcrest.CoreMatchers.*
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.hasEntry
-import org.hamcrest.core.AllOf
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import pro.butovanton.weather.Activitys.MainActivity
-import java.security.AccessController.getContext
-import java.util.regex.Pattern.matches
+import pro.butovanton.weather.Presentantion.MainActivity
 
 /**
  * Instrumented test, which will execute on an Android device.

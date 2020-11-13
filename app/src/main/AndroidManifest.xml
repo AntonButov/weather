@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activitys.ActivityTemper"></activity>
-        <activity android:name=".Activitys.ActivityCitys" />
-        <activity android:name=".Activitys.MainActivity">
+        <activity android:name=".Presentantion.ActivityTemper"></activity>
+        <activity android:name=".Presentantion.ActivityCitys" />
+        <activity android:name=".Presentantion.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
