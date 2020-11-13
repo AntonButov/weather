@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -17,7 +18,7 @@ import pro.butovanton.weather.Presentantion.ViewModels.MainViewModel
 
 class MainActivity : AppCompatActivity(), ObserverTemperature {
 
-    lateinit var model: MainViewModel
+    val model: MainViewModel by viewModels()
     lateinit var types : TypedArray
     lateinit var spinnerArrayAdapter : ArrayAdapter<String>
     var message = ""
@@ -32,8 +33,6 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
             view -> val intent = Intent(this, ActivityCitys:: class.java)
                         startActivity(intent)
         }
-
-        model = ViewModelProvider(this).get(MainViewModel::class.java)
 
         spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {

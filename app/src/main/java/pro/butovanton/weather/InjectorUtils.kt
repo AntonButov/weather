@@ -21,6 +21,7 @@ import pro.butovanton.weather.Data.AppDatabase
 import pro.butovanton.weather.Data.Repo
 import pro.butovanton.weather.Domain.interactor.Interactor
 import pro.butovanton.weather.Domain.interactor.InteractorCitys
+import pro.butovanton.weather.Domain.interactor.InteractorTemper
 
 object InjectorUtils {
 
@@ -33,7 +34,11 @@ object InjectorUtils {
     }
 
     fun provideInteractor(context: Context): Interactor {
-       return Interactor.get(provideRepo(context))
+       return Interactor(provideRepo(context))
+    }
+
+    fun provideInteractorTemper(context: Context): InteractorTemper {
+        return InteractorTemper(provideRepo(context))
     }
 
     fun provideInteractorCitys(context: Context): InteractorCitys {

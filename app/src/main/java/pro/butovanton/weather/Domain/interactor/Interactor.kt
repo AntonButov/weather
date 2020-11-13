@@ -11,16 +11,8 @@ class Interactor(private val boundares: Boundares) : Cases {
     private lateinit var cityCash : MutableList<City>
     private var observer : ObserverTemperature? = null
 
-    override fun addNew(name: String, type: Int) {
-       boundares.insert(Factory().Creat(type, name))
-    }
-
     override fun getAll(): Single<MutableList<City>> {
        return boundares.getAll()
-    }
-
-    override fun saveAll(citys: List<City>) {
-        boundares.saveAll(citys)
     }
 
     override fun getCitys(): Single<MutableList<CityModel>> {
@@ -40,31 +32,6 @@ class Interactor(private val boundares: Boundares) : Cases {
         return CityModel(city.name, city.type)
     }
 
-    fun setCitys(cityModels: List<CityModel>) {
-        for (i in 0 .. cityCash.size -1) {
-            cityCash[i].name = cityModels[i].name
-            cityCash[i].type = cityModels[i].type
-        }
-        saveAll(cityCash)
-       }
-
-    override fun update(city: City) {
-        boundares.update(city)
-    }
-
-    override fun delete(city: Int) {
-        cityCash.removeAt(city)
-        saveAll(cityCash)
-    }
-
-    override fun getTemper(name: String): Single<MutableList<Int?>> {
-        return boundares.getTemperByName(name)
-    }
-    override fun setTemper(name: String, temper: MutableList<Int?>) {
-        boundares.saveTemperByName(name, temper)
-        notifyObserver()
-    }
-
     fun registerObserver( observer : ObserverTemperature) {
         this.observer = observer
     }
@@ -74,17 +41,6 @@ class Interactor(private val boundares: Boundares) : Cases {
     fun notifyObserver() {
         observer.let {
           it!!.observerNotify(" Температура изменилась. ")}
-    }
-
-    companion object {
-        private var INSTANCE: Interactor? = null
-
-        fun get(boundares: Boundares) : Interactor {
-            if (INSTANCE == null)
-                INSTANCE = Interactor(boundares)
-
-            return INSTANCE!!
-        }
     }
 }
 

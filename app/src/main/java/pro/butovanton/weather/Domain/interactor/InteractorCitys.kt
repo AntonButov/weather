@@ -8,14 +8,8 @@ import pro.butovanton.weather.Factory.Factory
 
 class InteractorCitys(private val boundares: Boundares) : CasesCitys {
 
-    private lateinit var cityCash : MutableList<City>
-
     override fun add(city: CityModel) {
-       boundares.insert(Factory().Creat(city.type, city.name))
-    }
-
-    override fun getAll(): Single<MutableList<City>> {
-       return boundares.getAll()
+        boundares.insert(Factory().Creat(city.type, city.name))
     }
 
     override fun update(city: CityModel, position: Int) {
@@ -35,15 +29,13 @@ class InteractorCitys(private val boundares: Boundares) : CasesCitys {
                 cityAld.type = city.type
                 boundares.update(cityAld)
             }
-
     }
 
     override fun getCitys(): Single<MutableList<CityModel>> {
-            return getAll()
+            return boundares.getAll()
                 .map { citys -> mapModels(citys) }
         }
-    fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
-        cityCash = citys
+    private fun mapModels(citys: MutableList<City>) : MutableList<CityModel> {
         var cityModels = mutableListOf<CityModel>()
         citys.forEach {
             city -> cityModels.add(transformToCityModel(city))

@@ -16,17 +16,14 @@ class ActivityTemper : AppCompatActivity(),
 
     val model : TemperViewModel by viewModels()
     lateinit var city: String
-    lateinit var adapterTemper: AdapterTemper
-    lateinit var lm : LinearLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_temper)
         city =  intent.getStringExtra("city")
             model.registerTemperatureObserver(city).observe(this, Observer { temperatures ->
-                adapterTemper = AdapterTemper(this, temperatures)
-
-                lm = LinearLayoutManager(this)
-                reciclerTemper.layoutManager = lm
+                val adapterTemper = AdapterTemper(this, temperatures)
+                reciclerTemper.layoutManager = LinearLayoutManager(this)
                 reciclerTemper.adapter = adapterTemper
             })
     }

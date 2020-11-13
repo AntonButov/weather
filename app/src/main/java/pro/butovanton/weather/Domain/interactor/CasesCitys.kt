@@ -6,7 +6,6 @@ import pro.butovanton.weather.Factory.CityModel
 
 interface CasesCitys {
     fun add(city: CityModel)
-    fun getAll() : Single<MutableList<City>>
     fun update(city: CityModel, position: Int)
     fun update(city: CityModel)
     fun delete(city : String)

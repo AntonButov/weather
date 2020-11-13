@@ -7,8 +7,8 @@ import pro.butovanton.weather.InjectorUtils
 
 class TemperViewModel(app: Application) : AndroidViewModel(app) {
 
-   val interactor =  InjectorUtils.provideInteractor(app)
-   val temperatures = MutableLiveData<MutableList<Int?>>()
+  private val interactor =  InjectorUtils.provideInteractorTemper(app)
+  val temperatures = MutableLiveData<MutableList<Int?>>()
 
    private fun getCityTemperutures(city : String) {
       interactor.getTemper(city)
@@ -16,12 +16,12 @@ class TemperViewModel(app: Application) : AndroidViewModel(app) {
       temperatures.postValue(temper)}
    }
 
+   fun setCityTemperatures(city : String, temperatures : MutableList<Int?>) {
+      interactor.setTemper(city, temperatures)
+   }
+
    fun registerTemperatureObserver(city : String) : MutableLiveData<MutableList<Int?>> {
       getCityTemperutures(city)
       return temperatures
-   }
-
-   fun setCityTemperatures(city : String, temperatures : MutableList<Int?>) {
-      interactor.setTemper(city, temperatures)
    }
 }

@@ -92,9 +92,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         interactor.unregisterObserver()
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        if (!subscription.isDisposed)
-            subscription.dispose()
-    }
 }
