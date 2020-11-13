@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.View.combineMeasuredStates
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +32,9 @@ class AdapterCitys(val context: Context, val returnData: notifyCitys) :
             nameTextView.setOnClickListener {
                DialogRx(context).requestName()
                    .subscribe { newName ->
-
+                   citys[positionAdapter].name = newName
+                   notifyDataSetChanged()
+                   returnData.update(city = citys[positionAdapter], position = positionAdapter)
                    }
             }
 
@@ -48,7 +51,7 @@ class AdapterCitys(val context: Context, val returnData: notifyCitys) :
                 id: Long
             ) {
                 citys[positionAdapter].type = position
-                    //     returnData.update(citys[positionAdapter], positionAdapter)
+                returnData.update(city = citys[positionAdapter])
             }
         }
         holder.buttonDel.setOnClickListener {

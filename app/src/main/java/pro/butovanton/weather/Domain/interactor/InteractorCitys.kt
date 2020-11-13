@@ -18,10 +18,6 @@ class InteractorCitys(private val boundares: Boundares) : CasesCitys {
        return boundares.getAll()
     }
 
-    override fun saveAll(citys: List<City>) {
-        boundares.saveAll(citys)
-    }
-
     override fun update(city: CityModel, position: Int) {
         boundares.getAll()
             .subscribe { citys ->
@@ -31,6 +27,15 @@ class InteractorCitys(private val boundares: Boundares) : CasesCitys {
                 boundares.delete(aldCity.name)
                 boundares.insert(newCity)
             }
+    }
+
+    override fun update(city: CityModel) {
+        boundares.getCityByName(name = city.name)
+            .subscribe { cityAld ->
+                cityAld.type = city.type
+                boundares.update(cityAld)
+            }
+
     }
 
     override fun getCitys(): Single<MutableList<CityModel>> {

@@ -54,6 +54,10 @@ class ActivityCitys : AppCompatActivity(), notifyCitys {
             //      model.setAll(citys)
     }
 
+    override fun update(city: CityModel) {
+        model.update(city)
+    }
+
     override fun update(city: CityModel, position: Int) {
         model.update(city, position)
     }

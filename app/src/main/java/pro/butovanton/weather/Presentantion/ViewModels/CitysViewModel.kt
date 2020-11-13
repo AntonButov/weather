@@ -16,6 +16,9 @@ class CitysViewModel(application: Application) : AndroidViewModel(application) {
    fun update(city: CityModel, position: Int){
       interactor.update(city, position)
    }
+   fun update(city: CityModel){
+      interactor.update(city)
+   }
 
    fun add(city: CityModel) {
       interactor.add(city)
