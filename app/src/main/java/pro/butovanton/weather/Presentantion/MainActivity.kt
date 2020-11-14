@@ -8,20 +8,25 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
+import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Observer.ObserverTemperature
 import pro.butovanton.weather.Presentantion.Strategy.Strategy
 import pro.butovanton.weather.R
 import pro.butovanton.weather.Presentantion.ViewModels.MainViewModel
 
-class MainActivity : AppCompatActivity(), ObserverTemperature {
+class MainActivity : AppCompatActivity() {
 
     val model: MainViewModel by viewModels()
     lateinit var types : TypedArray
     lateinit var spinnerArrayAdapter : ArrayAdapter<String>
-    var message = ""
+
+    var citySelect: Int =0
+    var typeSelect: Int =0
+    var seasonSelect: Int = 0
+    var strategySelect: Int = 0
+    var citys : List<City>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +39,8 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
                         startActivity(intent)
         }
 
-        spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+        spinnerCitySelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -45,23 +48,24 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
                 city: Int,
                 id: Long
             ) {
-                model.setCityAndNotify(city)
+                citySelect = city
+                notifyCityTypeText()
+                notifyTemper()
             }
 
         }
 
-        spinnerSeson.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+        spinnerSeasonSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
-                seson: Int,
+                season: Int,
                 id: Long
             ) {
-            model.setSesonAndNotify(seson)
+            seasonSelect = season
+            notifyTemper()
             }
         }
         ArrayAdapter.createFromResource(
@@ -71,10 +75,10 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
         )
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerStrategy.adapter = adapter
+                spinnerStrategySelector.adapter = adapter
             }
 
-        spinnerStrategy.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        spinnerStrategySelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -84,7 +88,8 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
                 strategy: Int,
                 id: Long
             ) {
-                model.setStrategyAndNotify()
+               strategySelect = strategy
+               notifyTemper()
             }
         }
         ArrayAdapter.createFromResource(
@@ -94,52 +99,47 @@ class MainActivity : AppCompatActivity(), ObserverTemperature {
         )
             .also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerSeson.adapter = adapter
+                spinnerSeasonSelector.adapter = adapter
             }
 
-        model.registerObserverCityType().observe(this, Observer { type ->
-            textViewTypeCity.text = types.getText(type).toString()
-        })
+             getData()
 
-        model.registerObserverTemperature().observe(this, Observer { t ->
-            if (t == -255.toFloat())
-                textViewTemper.setText("")
-            else
-                textViewTemper.setText(Strategy.calculate(spinnerStrategy.selectedItemPosition, t).toString())
-        })
-
-        model.registerObserver(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        model.getCitysNames().observe(this, Observer { cityNames ->
-            spinnerArrayAdapter =
-                ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityNames)
-            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerCity.adapter = spinnerArrayAdapter
-            spinnerCity.setSelection(model.city!!)
-        })
-
-     if (!message.equals("")) {
-         val snackbar = Snackbar.make(
-             mainConstraint, message,
-             Snackbar.LENGTH_LONG
-         )
-         snackbar.show()
-         message = ""
-     }
+    private fun getData() {
+        model.getCitys()
+            .subscribe { cityFromBD ->
+                citys = cityFromBD
+                notifyCityNames()
+                notifyCityTypeText()
+            }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        model.registerObserverTemperature().removeObservers(this)
-        model.registerObserverCityType().removeObservers(this)
-        model.unregisterObserver()
+    private fun notifyCityNames() {
+        val cityNames = mutableListOf<String>()
+        citys?.forEach {city ->
+            cityNames.add(city.name)
+        }
+                spinnerArrayAdapter =
+                    ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, cityNames)
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerCitySelector.adapter = spinnerArrayAdapter
+                spinnerCitySelector.setSelection(0)
+            }
+
+    private fun notifyCityTypeText() {
+        citys?.let {
+            textViewTypeCity.text = types.getText(it[citySelect].type).toString()
+        }
     }
 
-    override fun observerNotify(message: String) {
-        this.message = message
+    private fun notifyTemper() {
+        citys?.let {
+          //  textViewTemper.setText(Strategy.calculate(strategySelect, t).toString() )
+        }
     }
 }
+
+
+
 

@@ -8,8 +8,8 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.*
-import pro.butovanton.weather.Domain.interactor.Boundares
-import pro.butovanton.weather.Domain.interactor.Interactor
+import pro.butovanton.weather.Domain.interactor.DataWay
+import pro.butovanton.weather.Domain.interactor.InteractorMain
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
 
@@ -19,8 +19,8 @@ class interactorTest {
     val city = City("test", 0)
     val temperatures = mutableListOf<Int?>(10,10,20,20,20,30,30,30,25,25,25,10)
     val citys : Single<MutableList<City>> = initSingle()
-    val boundaresMock = mock(Boundares::class.java)
-    val interactor = Interactor(boundaresMock)
+    val boundaresMock = mock(DataWay::class.java)
+    val interactor = InteractorMain(boundaresMock)
 
     fun initSingle(): Single<MutableList<City>> {
         city.temperature = temperatures

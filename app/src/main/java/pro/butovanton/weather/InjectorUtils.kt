@@ -19,7 +19,7 @@ package pro.butovanton.weather
 import android.content.Context
 import pro.butovanton.weather.Data.AppDatabase
 import pro.butovanton.weather.Data.Repo
-import pro.butovanton.weather.Domain.interactor.Interactor
+import pro.butovanton.weather.Domain.interactor.InteractorMain
 import pro.butovanton.weather.Domain.interactor.InteractorCitys
 import pro.butovanton.weather.Domain.interactor.InteractorTemper
 
@@ -33,8 +33,8 @@ object InjectorUtils {
         return Repo(provideDb(context).getDao())
     }
 
-    fun provideInteractor(context: Context): Interactor {
-       return Interactor(provideRepo(context))
+    fun provideInteractor(context: Context): InteractorMain {
+       return InteractorMain(provideRepo(context))
     }
 
     fun provideInteractorTemper(context: Context): InteractorTemper {

@@ -4,15 +4,14 @@ import io.reactivex.Single
 import pro.butovanton.weather.Observer.ObserverTemperature
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
-import pro.butovanton.weather.Factory.Factory
 
-class Interactor(private val boundares: Boundares) : Cases {
+class InteractorMain(private val dataWay: DataWayMain) : CasesMain {
 
     private lateinit var cityCash : MutableList<City>
     private var observer : ObserverTemperature? = null
 
     override fun getAll(): Single<MutableList<City>> {
-       return boundares.getAll()
+       return dataWay.getAll()
     }
 
     override fun getCitys(): Single<MutableList<CityModel>> {

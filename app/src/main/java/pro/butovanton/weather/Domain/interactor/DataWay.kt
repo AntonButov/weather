@@ -3,7 +3,7 @@ package pro.butovanton.weather.Domain.interactor
 import io.reactivex.Single
 import pro.butovanton.weather.Factory.City
 
-interface Boundares {
+interface DataWay {
     fun getAll() : Single<MutableList<City>>
     fun getCityByName(name: String): Single<City>
     fun getTemperByName(name: String): Single<MutableList<Int?>>
