@@ -62,4 +62,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
 
     implementation "android.arch.lifecycle:reactivestreams:1.0.0"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+
 }

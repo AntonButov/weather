@@ -1,27 +1,30 @@
 package pro.butovanton.weather.Presentantion
 
+import android.R.id
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_temper.*
-import pro.butovanton.weather.R
+import pro.butovanton.weather.InjectorUtils
 import pro.butovanton.weather.Presentantion.ViewModels.TemperViewModel
+import pro.butovanton.weather.R
 
 
 class ActivityTemper : AppCompatActivity(),
     saveTemperature {
 
-    val model : TemperViewModel by viewModels()
+    val model : TemperViewModel by viewModels { InjectorUtils.TemperModelFactory(application) }
     lateinit var city: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_temper)
         city =  intent.getStringExtra("city")
-            model.registerTemperatureObserver(city).observe(this, Observer { temperatures ->
+            model.getCityTemperutures(city).observe(this, Observer { temperatures ->
                 val adapterTemper = AdapterTemper(this, temperatures)
                 reciclerTemper.layoutManager = LinearLayoutManager(this)
                 reciclerTemper.adapter = adapterTemper

@@ -15,6 +15,7 @@ import pro.butovanton.weather.Domain.Factory.TestCity
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Domain.interactor.*
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Factory.CityModel
 
 @RunWith(MockitoJUnitRunner::class)
 class interactorTest {
@@ -25,12 +26,16 @@ class interactorTest {
     val interactorMain = InteractorMain(dataWayMain)
     val dataWayTemper = mock(DataWayTemper::class.java)
     val interactorTemper = InteractorTemper(dataWayTemper)
+    val dataWayCitys = mock(DataWayCitys::class.java)
+    val interactorCity = InteractorCitys(dataWayCitys)
 
 
     @Before
     fun setMock() {
         `when`(dataWayMain.getAll()).thenReturn(Single.just(mutableListOf(city)))
         `when`(dataWayTemper.getTemperByName(city.name)).thenReturn(Single.just(city.temperature))
+        `when`(dataWayCitys.getAll()).thenReturn(Single.just(mutableListOf(city)))
+        `when`(dataWayCitys.getCityByName(city.name)).thenReturn(Single.just(city))
     }
 
     @Test
@@ -59,6 +64,15 @@ class interactorTest {
         verify(dataWayTemper).saveTemperByName(city.name, city.temperature)
     }
 
+    @Test
+    fun testInteractorCitys() {
+    interactorCity.getCitys()
+        .subscribe { cityModels ->
+            assertEquals(city.name, cityModels[0].name)
+        }
 
+    interactorCity.update(CityModel(city.name, city.type))
+    verify(dataWayCitys).update(city)
+    }
 
 }
