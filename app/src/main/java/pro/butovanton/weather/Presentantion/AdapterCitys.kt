@@ -1,17 +1,14 @@
 package pro.butovanton.weather.Presentantion
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnTouchListener
-import android.view.View.combineMeasuredStates
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import pro.butovanton.weather.DialogRx
+import pro.butovanton.weather.Presentantion.View.DialogRx
 import pro.butovanton.weather.Factory.CityModel
+import pro.butovanton.weather.Presentantion.View.notifyCitys
 import pro.butovanton.weather.R
 
 

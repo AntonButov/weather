@@ -31,25 +31,15 @@ import pro.butovanton.weather.Presentantion.ViewModels.TemperViewModel
 
 object InjectorUtils {
 
-    fun provideDb(context: Context): AppDatabase {
-        return AppDatabase.createBd(context)
-    }
+    fun provideDb(context: Context): AppDatabase = AppDatabase.createBd(context)
 
-    fun provideRepo(context: Context): Repo {
-        return Repo(provideDb(context).getDao())
-    }
+    fun provideRepo(context: Context) = Repo(provideDb(context).getDao())
 
-    fun provideInteractor(context: Context): InteractorMain {
-        return InteractorMain(provideRepo(context))
-    }
+    fun provideInteractor(context: Context): InteractorMain = InteractorMain(provideRepo(context))
 
-    fun provideInteractorTemper(context: Context): InteractorTemper {
-        return InteractorTemper(provideRepo(context))
-    }
+    fun provideInteractorTemper(context: Context) = InteractorTemper(provideRepo(context))
 
-    fun provideInteractorCitys(context: Context): InteractorCitys {
-        return InteractorCitys(provideRepo(context))
-    }
+    fun provideInteractorCitys(context: Context) = InteractorCitys(provideRepo(context))
 
     class TemperModelFactory(private val app: Application): NewInstanceFactory() {
         @NonNull

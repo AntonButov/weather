@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import pro.butovanton.weather.Presentantion.View.ActivityTemper
 import pro.butovanton.weather.R
 
 class AdapterTemper(val context : ActivityTemper, val temperatures: MutableList<Int?>) :

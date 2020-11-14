@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Presentantion
+package pro.butovanton.weather.Presentantion.View
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_sytes.*
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
+import pro.butovanton.weather.Presentantion.AdapterCitys
 import pro.butovanton.weather.R
 import pro.butovanton.weather.Presentantion.ViewModels.CitysViewModel
 

@@ -8,13 +8,6 @@ import pro.butovanton.weather.Factory.CityModel
 
 class InteractorMain(private val dataWay: DataWayMain) : CasesMain {
 
-    override fun getAll(): Single<MutableList<City>> {
-       return dataWay.getAll()
+    override fun getAll(): Single<MutableList<City>> = dataWay.getAll()
     }
-
-    private fun transformToCityModel(city : City) : CityModel {
-        return CityModel(city.name, city.type)
-    }
-
-}
 

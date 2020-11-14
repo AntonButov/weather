@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Presentantion
+package pro.butovanton.weather.Presentantion.View
 
 import pro.butovanton.weather.Factory.CityModel
 

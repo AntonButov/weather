@@ -1,4 +1,4 @@
-package pro.butovanton.weather.Presentantion
+package pro.butovanton.weather.Presentantion.View
 
 import android.content.Intent
 import android.content.res.TypedArray
@@ -8,26 +8,23 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
-import pro.butovanton.weather.Observer.ObserverTemperature
 import pro.butovanton.weather.Presentantion.Strategy.Strategy
 import pro.butovanton.weather.R
 import pro.butovanton.weather.Presentantion.ViewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    val model: MainViewModel by viewModels()
-    lateinit var types : TypedArray
-    lateinit var spinnerArrayAdapter : ArrayAdapter<String>
+    private val model: MainViewModel by viewModels()
+    private lateinit var types : TypedArray
+    private lateinit var spinnerArrayAdapter : ArrayAdapter<String>
 
-    var citySelect: Int =0
-    var typeSelect: Int =0
-    var seasonSelect: Int = 0
-    var strategySelect: Int = 0
-    var citys : List<City>? = null
+    private var citySelect: Int =0
+    private var seasonSelect: Int = 0
+    private var strategySelect: Int = 0
+    private var citys : List<City>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonSytes.setOnClickListener() {
             view -> val intent = Intent(this, ActivityCitys:: class.java)
-                        startActivity(intent)
+                        startActivityForResult(intent, 102)
         }
 
         spinnerCitySelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -109,12 +106,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData() {
         model.getCitys()
-            .subscribe { cityFromBD ->
-                citys = cityFromBD
-                notifyCityNames()
-                notifyCityTypeText()
-            }
-    }
+            .observe(this, object : Observer<List<City>> {
+                override fun onChanged(cityFromBD: List<City>?) {
+                    citys = cityFromBD
+                    notifyCityNames()
+                    notifyCityTypeText()
+                }
+            })
+        }
 
     private fun notifyCityNames() {
         val cityNames = mutableListOf<String>()
@@ -139,6 +138,11 @@ class MainActivity : AppCompatActivity() {
             val t = TemperatureSeson.getTemperatureForSeson(it[citySelect], seasonSelect)
             textViewTemper.setText(Strategy.calculate(strategySelect, t).toString() )
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        getData()
     }
 }
 

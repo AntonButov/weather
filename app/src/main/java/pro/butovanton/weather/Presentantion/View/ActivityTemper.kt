@@ -1,16 +1,16 @@
-package pro.butovanton.weather.Presentantion
+package pro.butovanton.weather.Presentantion.View
 
-import android.R.id
 import android.app.Activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_temper.*
 import pro.butovanton.weather.InjectorUtils
+import pro.butovanton.weather.Presentantion.AdapterTemper
 import pro.butovanton.weather.Presentantion.ViewModels.TemperViewModel
+import pro.butovanton.weather.Presentantion.saveTemperature
 import pro.butovanton.weather.R
 
 
