@@ -17,5 +17,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
   fun getCitys() = LiveDataReactiveStreams
       .fromPublisher(interactor.getAll().toFlowable())
-
  }

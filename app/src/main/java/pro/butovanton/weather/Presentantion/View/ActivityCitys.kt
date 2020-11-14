@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_sytes.*
 import pro.butovanton.weather.Factory.CityModel
@@ -41,18 +42,11 @@ class ActivityCitys : AppCompatActivity(), notifyCitys {
 
     private fun notifyAdapter() {
         model.getAll()
-            .subscribe { citys ->
-                adapter.setData(citys)
-            }
-    }
-
-   // override fun citys(citys: MutableList<CityModel>) {
-  //      this.citys = citys
-  //  }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-            //      model.setAll(citys)
+            .observe(this, object : Observer<List<CityModel>> {
+                override fun onChanged(citys: List<CityModel>?) {
+                    adapter.setData(citys as MutableList<CityModel>)
+                }
+            })
     }
 
     override fun update(city: CityModel) {
