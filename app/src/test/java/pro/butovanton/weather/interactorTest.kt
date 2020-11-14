@@ -8,49 +8,57 @@ import org.junit.Before
 import org.junit.runner.RunWith
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.Mockito.*
-import pro.butovanton.weather.Domain.interactor.DataWay
-import pro.butovanton.weather.Domain.interactor.InteractorMain
+import pro.butovanton.weather.Data.DataWayCitys
+import pro.butovanton.weather.Data.DataWayMain
+import pro.butovanton.weather.Data.DataWayTemper
+import pro.butovanton.weather.Domain.Factory.TestCity
 import pro.butovanton.weather.Domain.TemperatureSeson
+import pro.butovanton.weather.Domain.interactor.*
 import pro.butovanton.weather.Factory.City
 
 @RunWith(MockitoJUnitRunner::class)
 class interactorTest {
 
-    val city = City("test", 0)
-    val temperatures = mutableListOf<Int?>(10,10,20,20,20,30,30,30,25,25,25,10)
-    val citys : Single<MutableList<City>> = initSingle()
-    val boundaresMock = mock(DataWay::class.java)
-    val interactor = InteractorMain(boundaresMock)
+    val city : City = TestCity()
 
-    fun initSingle(): Single<MutableList<City>> {
-        city.temperature = temperatures
-    return Single.just(mutableListOf(city))
-    }
+    val dataWayMain = mock(DataWayMain::class.java)
+    val interactorMain = InteractorMain(dataWayMain)
+    val dataWayTemper = mock(DataWayTemper::class.java)
+    val interactorTemper = InteractorTemper(dataWayTemper)
+
 
     @Before
     fun setMock() {
-        `when`(boundaresMock.getAll()).thenReturn(citys)
-        `when`(boundaresMock.getTemperByName(city.name)).thenReturn(Single.just(temperatures))
+        `when`(dataWayMain.getAll()).thenReturn(Single.just(mutableListOf(city)))
+        `when`(dataWayTemper.getTemperByName(city.name)).thenReturn(Single.just(city.temperature))
     }
 
     @Test
-    fun testTemper() {
-       interactor.getAll().subscribe { citys ->
-           assertTrue(citys.size > 0)
-           assertTrue(TemperatureSeson.getTemperatureForSeson(city,0) == 10.toFloat())
-           assertTrue(TemperatureSeson.getTemperatureForSeson(city,1) == 20.toFloat())
-           assertTrue(TemperatureSeson.getTemperatureForSeson(city,2) == 30.toFloat())
-           assertTrue(TemperatureSeson.getTemperatureForSeson(city,3) == 25.toFloat())
+    fun testInteractorMain() {
+        interactorMain.getAll()
+            .subscribe { citys ->
+                assertTrue(citys[0].name.equals("test") && citys[0].type == 0)
+            }
+        interactorMain.getAll().subscribe { citys ->
+            assertTrue(citys.size > 0)
+            assertTrue(TemperatureSeson.getTemperatureForSeson(city, 0) == 10.toFloat())
+            assertTrue(TemperatureSeson.getTemperatureForSeson(city, 1) == 20.toFloat())
+            assertTrue(TemperatureSeson.getTemperatureForSeson(city, 2) == 30.toFloat())
+            assertTrue(TemperatureSeson.getTemperatureForSeson(city, 3) == 25.toFloat())
+        }
 
-       interactor.getTemper(city.name)
-           .subscribe { temperatures ->
-               assertTrue( temperatures.size == 12)
-           }
-
-       interactor.getCitys()
-           .subscribe { citys ->
-               assertTrue(citys[0].name.equals("test") && citys[0].type == 0)
-           }
-       }
     }
+    @Test
+    fun testInteractorTemper() {
+        interactorTemper.getTemper(city.name)
+            .subscribe { temperatures ->
+                assertTrue(temperatures.size == 12)
+            }
+
+        interactorTemper.setTemper(city.name, city.temperature)
+        verify(dataWayTemper).saveTemperByName(city.name, city.temperature)
+    }
+
+
+
 }

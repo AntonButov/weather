@@ -1,5 +1,6 @@
-package pro.butovanton.weather.Domain.interactor
+package pro.butovanton.weather.Data
 
+import io.reactivex.Observer
 import io.reactivex.Single
 import pro.butovanton.weather.Factory.City
 

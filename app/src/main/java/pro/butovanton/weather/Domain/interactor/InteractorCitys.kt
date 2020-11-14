@@ -1,11 +1,12 @@
 package pro.butovanton.weather.Domain.interactor
 
 import io.reactivex.Single
+import pro.butovanton.weather.Data.DataWayCitys
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Factory.CityModel
 import pro.butovanton.weather.Factory.Factory
 
-class InteractorCitys(private val dataWay: DataWay) : CasesCitys {
+class InteractorCitys(private val dataWay: DataWayCitys) : CasesCitys {
 
     override fun add(city: CityModel) {
         dataWay.insert(Factory().Creat(city.type, city.name))
@@ -41,7 +42,6 @@ class InteractorCitys(private val dataWay: DataWay) : CasesCitys {
         }
         return cityModels
     }
-
     private fun transformToCityModel(city : City) : CityModel {
         return CityModel(city.name, city.type)
     }

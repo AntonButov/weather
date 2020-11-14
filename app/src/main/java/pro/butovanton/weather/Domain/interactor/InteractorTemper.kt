@@ -1,7 +1,7 @@
 package pro.butovanton.weather.Domain.interactor
 
 import io.reactivex.Single
-import pro.butovanton.weather.Observer.ObserverTemperature
+import pro.butovanton.weather.Data.DataWayTemper
 
 class InteractorTemper(private val dataWay: DataWayTemper) : CasesTemper {
 

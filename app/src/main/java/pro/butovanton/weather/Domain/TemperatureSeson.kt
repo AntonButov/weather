@@ -15,7 +15,7 @@ class TemperatureSeson {
        autumn
    )
 
-        fun getTemperatureForSeson(city: City, seson: Int): Float {
+        fun getTemperatureForSeson(city: City, seson: Int): Float? {
             var s = 0
             var n = 0
             for (month in 0..2) {
@@ -26,7 +26,7 @@ class TemperatureSeson {
                 }
             }
             if (n > 0) return (s / n).toFloat()
-            else return (-255).toFloat()
+            else return null
         }
     }
 }

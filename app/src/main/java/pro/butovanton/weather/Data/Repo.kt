@@ -1,12 +1,9 @@
 package pro.butovanton.weather.Data
 
 import io.reactivex.Single
-import pro.butovanton.weather.Domain.interactor.DataWay
-import pro.butovanton.weather.Domain.interactor.DataWayMain
-import pro.butovanton.weather.Domain.interactor.DataWayTemper
 import pro.butovanton.weather.Factory.City
 
-class Repo(val daoC: daoCity) : DataWay, DataWayTemper, DataWayMain {
+class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain {
 
     override fun getAll(): Single<MutableList<City>> {
         return daoC.getCitys()
