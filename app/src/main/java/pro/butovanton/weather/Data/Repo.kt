@@ -1,9 +1,23 @@
 package pro.butovanton.weather.Data
 
+import android.content.Context
 import io.reactivex.Single
 import pro.butovanton.weather.Factory.City
+import pro.butovanton.weather.Observer.Observable
+import pro.butovanton.weather.Observer.Observer
 
-class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain {
+class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain, Observable {
+
+    companion object {
+        private var instance: Repo? = null
+
+        fun getInstance(daoC: daoCity): Repo? {
+                if (instance == null) instance = Repo(daoC)
+                return instance!!
+            }
+    }
+
+    var observer: Observer? = null
 
     override fun getAll(): Single<MutableList<City>> {
         return daoC.getCitys()
@@ -30,6 +44,7 @@ class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain {
                 cityNew.temperature = temper as MutableList<Int?>
                 daoC.update(cityNew)
             }
+        notifyObserver()
     }
 
     override fun insert(city: City) {
@@ -43,4 +58,17 @@ class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain {
     override fun delete(name: String) {
         daoC.delete(name)
     }
+
+    override fun addObserver(observer: Observer) {
+        this.observer = observer
+    }
+
+    override fun removeObserver() {
+        this.observer = null
+    }
+
+    override fun notifyObserver() {
+        observer?.notifyObserver()
+    }
+
 }

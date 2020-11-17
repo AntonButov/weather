@@ -21,11 +21,12 @@ import android.content.Context
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.NewInstanceFactory
-import pro.butovanton.weather.Data.AppDatabase
-import pro.butovanton.weather.Data.Repo
+import pro.butovanton.weather.Data.*
 import pro.butovanton.weather.Domain.interactor.InteractorCitys
 import pro.butovanton.weather.Domain.interactor.InteractorMain
 import pro.butovanton.weather.Domain.interactor.InteractorTemper
+import pro.butovanton.weather.Observer.Observable
+import pro.butovanton.weather.Observer.Observer
 import pro.butovanton.weather.Presentantion.ViewModels.TemperViewModel
 
 
@@ -33,13 +34,13 @@ object InjectorUtils {
 
     fun provideDb(context: Context): AppDatabase = AppDatabase.createBd(context)
 
-    fun provideRepo(context: Context) = Repo(provideDb(context).getDao())
+    fun provideRepo(context: Context) = Repo.getInstance(provideDb(context).getDao())
 
-    fun provideInteractor(context: Context): InteractorMain = InteractorMain(provideRepo(context))
+    fun provideInteractorMain(context: Context): InteractorMain = InteractorMain(provideRepo(context) as DataWayMain, provideRepo(context) as Observable)
 
-    fun provideInteractorTemper(context: Context) = InteractorTemper(provideRepo(context))
+    fun provideInteractorTemper(context: Context) = InteractorTemper(provideRepo(context) as DataWayTemper)
 
-    fun provideInteractorCitys(context: Context) = InteractorCitys(provideRepo(context))
+    fun provideInteractorCitys(context: Context) = InteractorCitys(provideRepo(context) as DataWayCitys)
 
     class TemperModelFactory(private val app: Application): NewInstanceFactory() {
         @NonNull

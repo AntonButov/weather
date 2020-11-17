@@ -2,19 +2,38 @@ package pro.butovanton.weather.Presentantion.ViewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.disposables.CompositeDisposable
-import pro.butovanton.weather.Observer.ObserverTemperature
-import pro.butovanton.weather.Domain.TemperatureSeson
-import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.InjectorUtils
+import pro.butovanton.weather.Observer.Observable
+import pro.butovanton.weather.Observer.Observer
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    val interactor = InjectorUtils.provideInteractor(application)
+    private val interactor = InjectorUtils.provideInteractorMain(application)
+    val message = MutableLiveData<String>()
+
+    val observer = object : Observer {
+        override fun registerObserver(observer: Observer) { }
+
+        override fun unRegisterObserver() {
+            interactor.unRegisterObserver()
+        }
+
+        override fun notifyObserver() {
+            message.value = "Температура изменилась."
+        }
+    }
+
+    init {
+        interactor.registerObserver(observer)
+    }
 
   fun getCitys() = LiveDataReactiveStreams
       .fromPublisher(interactor.getAll().toFlowable())
- }
+
+    override fun onCleared() {
+        super.onCleared()
+        observer.unRegisterObserver()
+    }
+}

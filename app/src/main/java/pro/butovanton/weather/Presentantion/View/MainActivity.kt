@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import pro.butovanton.weather.Domain.TemperatureSeson
 import pro.butovanton.weather.Factory.City
@@ -101,6 +102,15 @@ class MainActivity : AppCompatActivity() {
             }
 
              getData()
+
+        model.message.observe(this, object: Observer<String> {
+            override fun onChanged(message: String?) {
+                message?.let {
+                    Snackbar.make(findViewById(R.id.mainConstraint), it, Snackbar.LENGTH_SHORT)
+                }
+            }
+
+        })
 
     }
 
