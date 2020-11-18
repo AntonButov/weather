@@ -11,7 +11,7 @@ import pro.butovanton.weather.Observer.Observer
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val interactor = InjectorUtils.provideInteractorMain(application)
-    val message = MutableLiveData<String>()
+    val message = MutableLiveData<String>("")
 
     val observer = object : Observer {
         override fun registerObserver(observer: Observer) { }

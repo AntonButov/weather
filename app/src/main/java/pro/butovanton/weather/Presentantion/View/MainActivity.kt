@@ -10,7 +10,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import pro.butovanton.weather.Domain.TemperatureSeson
+import pro.butovanton.weather.Domain.Decorator.Decorator
+import pro.butovanton.weather.Domain.Decorator.TemperatureSeason
 import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Presentantion.Strategy.Strategy
 import pro.butovanton.weather.R
@@ -105,10 +106,8 @@ class MainActivity : AppCompatActivity() {
 
         model.message.observe(this, object: Observer<String> {
             override fun onChanged(message: String?) {
-                message?.let {
-                    Snackbar.make(findViewById(R.id.mainConstraint), it, Snackbar.LENGTH_SHORT)
-                }
-            }
+                    Snackbar.make(mainConstraint, message!! , Snackbar.LENGTH_SHORT).show()
+             }
 
         })
 
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun notifyTemper() {
         citys?.let {
-            val t = TemperatureSeson.getTemperatureForSeson(it[citySelect], seasonSelect)
+            val t = Decorator(TemperatureSeason()).temperatureSeson.getTemperatureForSeson(it[citySelect], seasonSelect)
             textViewTemper.setText(Strategy.calculate(strategySelect, t).toString() )
         }
     }

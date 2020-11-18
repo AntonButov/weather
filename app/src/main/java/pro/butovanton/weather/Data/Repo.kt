@@ -6,7 +6,7 @@ import pro.butovanton.weather.Factory.City
 import pro.butovanton.weather.Observer.Observable
 import pro.butovanton.weather.Observer.Observer
 
-class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain, Observable {
+open class Repo(val daoC: daoCity) : DataWayCitys, DataWayTemper, DataWayMain, Observable {
 
     companion object {
         private var instance: Repo? = null

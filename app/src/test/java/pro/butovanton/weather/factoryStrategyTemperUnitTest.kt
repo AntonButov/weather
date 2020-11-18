@@ -4,7 +4,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import pro.butovanton.weather.Presentantion.Strategy.Strategy
-import pro.butovanton.weather.Domain.TemperatureSeson
+import pro.butovanton.weather.Domain.Decorator.TemperatureSeason
 import pro.butovanton.weather.Factory.*
 
 /**
@@ -13,6 +13,9 @@ import pro.butovanton.weather.Factory.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class factoryStrategyTemperUnitTest {
+
+    val temperatureSeson = TemperatureSeason()
+
     @Test
     fun factoryTest() {
         var city: City
@@ -31,14 +34,14 @@ class factoryStrategyTemperUnitTest {
 
     @Test
     fun testSesons() {
-        assertTrue(TemperatureSeson.sesons.size == 4)
-        assertTrue(TemperatureSeson.autumn.size == 3)
-        assertTrue(TemperatureSeson.summer.size == 3)
-        assertTrue(TemperatureSeson.spring.size == 3)
-        assertTrue(TemperatureSeson.winter.size == 3)
+        assertTrue(temperatureSeson.sesons.size == 4)
+        assertTrue(temperatureSeson.autumn.size == 3)
+        assertTrue(temperatureSeson.summer.size == 3)
+        assertTrue(temperatureSeson.spring.size == 3)
+        assertTrue(temperatureSeson.winter.size == 3)
         var months : Int = 0
         for (seson: Int in 0 .. 3)
-            months += TemperatureSeson.sesons[seson].size
+            months += temperatureSeson.sesons[seson].size
         assertTrue(months == 12)
     }
 
@@ -47,10 +50,10 @@ class factoryStrategyTemperUnitTest {
         var city = City("cityTest", 0)
         city.temperature =
             mutableListOf<Int?>(10, null, null, 5, 5, null, 15, null, null, 20, null, null)
-        assertEquals(TemperatureSeson.getTemperatureForSeson(city,  0) , 10.toFloat())
-        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 1) , 5.toFloat())
-        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 2) , 15.toFloat())
-        assertEquals(TemperatureSeson.getTemperatureForSeson(city, 3) , 20.toFloat())
+        assertEquals(temperatureSeson.getTemperatureForSeson(city,  0) , 10.toFloat())
+        assertEquals(temperatureSeson.getTemperatureForSeson(city, 1) , 5.toFloat())
+        assertEquals(temperatureSeson.getTemperatureForSeson(city, 2) , 15.toFloat())
+        assertEquals(temperatureSeson.getTemperatureForSeson(city, 3) , 20.toFloat())
     }
 
     @Test

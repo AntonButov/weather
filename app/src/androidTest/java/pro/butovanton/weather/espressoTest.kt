@@ -24,7 +24,7 @@ class FileListActivityTest {
     )
 
     @Test
-    fun storageActivityEspressoTest() {
+    fun ativityEspressoTest() {
        onView(withText("Города")).perform(click())
        onView(withText("Добавить город")).perform(click())
        onView(withText("Введите имя")).perform(typeText(""))
