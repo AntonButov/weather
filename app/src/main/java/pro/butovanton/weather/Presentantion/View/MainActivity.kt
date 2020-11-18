@@ -138,14 +138,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun notifyCityTypeText() {
         citys?.let {
-            textViewTypeCity.text = types.getText(it[citySelect].type).toString()
+            if (it.size > 0)
+                textViewTypeCity.text = types.getText(it[citySelect].type).toString()
         }
     }
 
     private fun notifyTemper() {
         citys?.let {
-            val t = Decorator(TemperatureSeason()).temperatureSeson.getTemperatureForSeson(it[citySelect], seasonSelect)
-            textViewTemper.setText(Strategy.calculate(strategySelect, t).toString() )
+            if (it.size > 0) {
+                val t = Decorator(TemperatureSeason()).temperatureSeson.getTemperatureForSeson(
+                    it[citySelect],
+                    seasonSelect
+                )
+                textViewTemper.setText(Strategy.calculate(strategySelect, t).toString())
+            }
         }
     }
 
